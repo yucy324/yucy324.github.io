@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>你的名字 - 个人主页</title>
+    <meta
+      name="description"
+      content="个人介绍主页模板，包含简介、教育经历、论文与联系方式�?
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css?v=20260226a9" />
+  </head>
+  <body class="accent-border-top">
+    <header class="masthead">
+      <div class="masthead__inner">
+        <a class="brand" href="#overview">Homepage</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+          �?        </button>
+        <nav class="site-nav" id="siteNav">
+          <a href="#overview" class="nav-link active" id="navOverview">Profile</a>
+          <a href="#news" class="nav-link" id="navNews">News</a>
+          <a href="#publications" class="nav-link" id="navPublications">Publications</a>
+          <a href="#projects" class="nav-link" id="navProjects">Projects</a>
+          <a href="#awards" class="nav-link" id="navAwards">Awards</a>
+          <a href="#journey" class="nav-link" id="navJourney">Journey</a>
+          <a href="#contact" class="nav-link" id="navContact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="profile-card reveal">
+          <img
+            src="./assets/img/avatar.svg"
+            alt="个人头像"
+            class="avatar"
+            width="180"
+            height="180"
+          />
+          <h1 class="name" id="profileName"></h1>
+          <p class="title" id="profileTitle"></p>
+          <p class="bio" id="profileBio"></p>
+          <div class="profile-sections" id="profileSections"></div>
+          <ul class="meta-list" id="profileMeta"></ul>
+          <div class="profile-globe-section" id="profileGlobeSection">
+            <div class="clustrmaps-shell">
+              <script
+                type="text/javascript"
+                id="clstr_globe"
+                src="//clustrmaps.com/globe.js?d=Vr-eYn9fNnJRWR6kcXJa5akQlOll4HKWjM--Xfn5inY"
+              ></script>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section id="overview" class="section reveal">
+          <div class="overview-grid">
+            <article class="summary-card">
+              <p class="summary-text" id="summaryText">
+                这里会展示你最核心的身份与方向，一屏让访问者知道你是谁、你做什么、为什么值得合作�?              </p>
+              <div class="lang-switch lang-switch-inline" id="langSwitch" aria-label="Language switch">
+                <button type="button" class="lang-btn active" id="langBtnEn" data-lang="en">EN</button>
+                <span class="lang-divider" aria-hidden="true">/</span>
+                <button type="button" class="lang-btn" id="langBtnZh" data-lang="zh">����</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="news" class="section reveal">
+          <h2 id="newsTitle">🔥 News</h2>
+          <ul class="timeline" id="newsList"></ul>
+        </section>
+
+        <section id="publications" class="section reveal">
+          <h2 id="publicationsTitle" class="section-title-row">
+            <span id="publicationsTitleText">Publications</span>
+            <a id="publicationsFullListLink" class="section-title-link" href="./publications.html">(Full List)</a>
+          </h2>
+          <div class="chip-group" id="pubFilterChips"></div>
+          <p class="filter-hint filter-hint--authors" id="pubFilterHint">�� First Author        ? Corresponding Author</p>
+          <div class="pub-list" id="pubList"></div>
+        </section>
+
+        <section id="projects" class="section reveal">
+          <h2 id="projectsTitle">🛠�?Projects</h2>
+          <div class="chip-group" id="projectFilterChips"></div>
+          <p class="filter-hint" id="projectFilterHint">Multiple selection, intersection filter (AND).</p>
+          <div class="project-list" id="projectList"></div>
+        </section>
+
+        <section id="awards" class="section reveal">
+          <h2 id="awardsTitle">🏆 Awards</h2>
+          <ul class="timeline" id="awardsList"></ul>
+        </section>
+
+        <section id="journey" class="section reveal">
+          <h2 id="journeyTitle">🧭 Journey Timeline</h2>
+          <div class="journey-list" id="journeyList"></div>
+        </section>
+
+        <section id="contact" class="section reveal">
+          <h2 id="contactTitle">📮 Contact</h2>
+          <p id="contactText"></p>
+          <p><a id="contactEmail" href="mailto:you@example.com">you@example.com</a></p>
+        </section>
+      </main>
+    </div>
+
+    <footer class="footer">
+      <p><span id="updatedLabel">Updated at</span> <span id="updatedAt"></span> | <span id="footerInspired">Inspired by academic homepage style.</span></p>
+    </footer>
+
+    <script>
+      window.CONTENT_BASE_PATH = "./content";
+    </script>
+    <script src="./assets/js/main.js?v=20260226a9"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

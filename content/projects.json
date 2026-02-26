@@ -1,0 +1,75 @@
+{
+  "items": [
+    {
+      "name": "Realtime Visual QA Assistant",
+      "period": "2025",
+      "summary": {
+        "en": "Integrated vision understanding models into a QA system with image-text retrieval and explainable responses.",
+        "zh": "把视觉理解模型接入问答系统，支持图文检索与智能解释。"
+      },
+      "impact": {
+        "en": "Served 5 internal teams and improved issue triage efficiency by about 35%.",
+        "zh": "服务内部 5 个团队，平均问题定位效率提升约 35%。"
+      },
+      "tags": [
+        "Vision",
+        "Multimodal",
+        "Product"
+      ],
+      "links": [
+        {
+          "label": "Case",
+          "url": "#"
+        },
+        {
+          "label": "Code",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "name": "Efficient Fine-tuning Toolkit",
+      "period": "2024 - 2025",
+      "summary": {
+        "en": "Packaged parameter-efficient fine-tuning workflows with unified training, evaluation, and export.",
+        "zh": "封装参数高效微调流程，统一训练、评估和导出。"
+      },
+      "impact": {
+        "en": "Reduced per-experiment cost by around 40% and improved script reuse.",
+        "zh": "单次实验成本下降约 40%，训练脚本复用率明显提升。"
+      },
+      "tags": [
+        "Efficiency",
+        "Infra"
+      ],
+      "links": [
+        {
+          "label": "Repo",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "name": "Cross-modal Retrieval Demo",
+      "period": "2024",
+      "summary": {
+        "en": "Built a cross-modal retrieval demo with bidirectional image-text matching and visual explanations.",
+        "zh": "实现跨模态检索 Demo，支持图文双向匹配与可视化解释。"
+      },
+      "impact": {
+        "en": "Used for external showcases and PoC, helping to kick off multimodal initiatives.",
+        "zh": "用于对外展示与 PoC，帮助推进多模态项目立项。"
+      },
+      "tags": [
+        "Multimodal",
+        "Demo"
+      ],
+      "links": [
+        {
+          "label": "Demo",
+          "url": "#"
+        }
+      ]
+    }
+  ]
+}

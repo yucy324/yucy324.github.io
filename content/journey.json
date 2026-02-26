@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "period": "2024.01 - Present",
+      "title": "AI Research & Engineering",
+      "detail": {
+        "en": "Focused on multimodal understanding and efficient training/inference, continuously delivering both papers and projects.",
+        "zh": "聚焦多模态理解与高效训练推理，持续推进论文与项目双线产出。"
+      }
+    },
+    {
+      "period": "2022.09 - 2024.01",
+      "title": "Graduate Research",
+      "detail": {
+        "en": "Built a full research workflow from problem definition to experiment closure.",
+        "zh": "系统训练科研能力，建立从问题定义到实验闭环的研究流程。"
+      }
+    },
+    {
+      "period": "2018.09 - 2022.06",
+      "title": "Undergraduate Study",
+      "detail": {
+        "en": "Completed solid training in computer science and mathematics and participated in multiple vision course projects.",
+        "zh": "完成计算机与数学基础训练，参与多个计算机视觉课程项目。"
+      }
+    }
+  ]
+}

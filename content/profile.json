@@ -1,0 +1,54 @@
+{
+  "name": "Caiyang Yu",
+  "bio": {
+    "en": "Lecturer in the College of Computer Science and Artificial Intelligence, Wenzhou University.",
+    "zh": "温州大学计算机与人工智能学院讲师。"
+  },
+  "meta": [
+    {
+      "icon": "📍",
+      "iconSrc": "./pic/address.png",
+      "text": {
+        "en": "Wenzhou, China",
+        "zh": "中国，温州"
+      }
+    },
+    {
+      "icon": "✉️",
+      "iconSrc": "./pic/email.png",
+      "text": {
+        "en": "Email",
+        "zh": "邮箱"
+      },
+      "url": "yucy324@gmail.com"
+    },
+
+    {
+      "icon": "🐙",
+      "iconSrc": "./pic/GitHub.png",
+      "text": {
+        "en": "GitHub",
+        "zh": "GitHub"
+      },
+      "url": "https://github.com/yucy324"
+    },
+    {
+      "icon": "🎓",
+      "iconSrc": "./pic/Google%20Scholar.png",
+      "text": {
+        "en": "Google Scholar",
+        "zh": "谷歌学术"
+      },
+      "url": "https://scholar.google.com/citations?user=YISjXPwAAAAJ&hl=zh-CN"
+    },
+    {
+      "icon": "🆔",
+      "iconSrc": "./pic/orcid.png",
+      "text": {
+        "en": "ORCID",
+        "zh": "ORCID"
+      },
+      "url": "https://orcid.org/my-orcid?orcid=0000-0001-8246-1561"
+    }
+  ]
+}

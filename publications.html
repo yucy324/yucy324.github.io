@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Name - Publications</title>
+    <meta
+      name="description"
+      content="Full publications list with tag filters and resource links."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css?v=20260226a9" />
+  </head>
+  <body class="accent-border-top publications-page">
+    <header class="masthead">
+      <div class="masthead__inner">
+        <a class="brand" href="./index.html#overview">Homepage</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+          ?
+        </button>
+        <nav class="site-nav" id="siteNav">
+          <a href="./index.html#overview" class="nav-link" id="navOverview">Profile</a>
+          <a href="./index.html#news" class="nav-link" id="navNews">News</a>
+          <a href="./publications.html#publications" class="nav-link active" id="navPublications">Publications</a>
+          <a href="./index.html#projects" class="nav-link" id="navProjects">Projects</a>
+          <a href="./index.html#awards" class="nav-link" id="navAwards">Awards</a>
+          <a href="./index.html#journey" class="nav-link" id="navJourney">Journey</a>
+          <a href="./index.html#contact" class="nav-link" id="navContact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="profile-card reveal">
+          <img
+            src="./assets/img/avatar.svg"
+            alt="Profile avatar"
+            class="avatar"
+            width="180"
+            height="180"
+          />
+          <h1 class="name" id="profileName"></h1>
+          <p class="title" id="profileTitle"></p>
+          <p class="bio" id="profileBio"></p>
+          <div class="profile-sections" id="profileSections"></div>
+          <ul class="meta-list" id="profileMeta"></ul>
+          <div class="profile-globe-section" id="profileGlobeSection">
+            <div class="clustrmaps-shell">
+              <script
+                type="text/javascript"
+                id="clstr_globe"
+                src="//clustrmaps.com/globe.js?d=Vr-eYn9fNnJRWR6kcXJa5akQlOll4HKWjM--Xfn5inY"
+              ></script>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section id="publications" class="section reveal">
+          <h2 id="publicationsTitle">Publications</h2>
+          <div class="chip-group" id="pubFilterChips"></div>
+          <p class="filter-hint filter-hint--authors" id="pubFilterHint">бя First Author        ? Corresponding Author</p>
+          <div class="pub-list" id="pubList"></div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="footer">
+      <p><span id="updatedLabel">Updated at</span> <span id="updatedAt"></span> | <span id="footerInspired">Inspired by academic homepage style.</span></p>
+    </footer>
+
+    <script>
+      window.CONTENT_BASE_PATH = "./content";
+    </script>
+    <script src="./assets/js/main.js?v=20260226a9"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

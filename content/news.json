@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "date": "2026.02",
+      "text": {
+        "en": "Launched the new personal homepage with timeline and multi-select filters.",
+        "zh": "上线新版个人主页：加入时间轴和多选筛选。"
+      }
+    },
+    {
+      "date": "2026.01",
+      "text": {
+        "en": "One multimodal paper was accepted by an international conference (example).",
+        "zh": "一篇多模态方向论文被国际会议接收（示例）。"
+      }
+    },
+    {
+      "date": "2025.11",
+      "text": {
+        "en": "Invited to share model deployment experience in a technical community (example).",
+        "zh": "受邀在技术社区分享模型部署经验（示例）。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,488 @@
+{
+  "items": [
+    {
+      "badge": "The IEEE/CVF Conference on Computer Vision and Pattern Recognition 2026",
+      "title": "Progressive Neural Architecture Generation",
+      "imageSrc": "./pic/publications/Progressive Neural Architecture Generation.jpg",
+      "imageLabel": "CVPR 2026",
+      "authors": [
+        {
+          "name": "Caiyang Yu",
+          "first": true
+        },
+        {
+          "name": "Chen Huang"
+        },
+        {
+          "name": "Yun Liu"
+        },
+        {
+          "name": "Chenwei Tang"
+        },
+        {
+          "name": "Wei Ju"
+        },
+        {
+          "name": "Jiancheng Lv",
+          "corresponding": true
+        }
+      ],
+      "venue": "The IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR 2026)",
+      "year": "2026",
+      "type": [
+        "Neural Architecture Search"
+      ],
+      "level": {
+        "ccf": "CCF A"
+      },
+      "tags": [
+        "Neural Architecture Search",
+        "Neural Architecture Generation",
+        "Autoregressive"
+      ],
+      "resources": {
+        "paper": "",
+        "cite": "#"
+      },
+      "citation": {
+        "gbt": "",
+        "bibtex": ""
+      }
+    },
+    {
+      "badge": "The Fourteenth International Conference on Learning Representations 2026",
+      "title": "Dynamic Multi-sample Mixup with Gradient Exploration for Open-set Graph Anomaly Detection",
+      "imageSrc": "./pic/publications/Dynamic Multi-sample Mixup with Gradient Exploration for Open-set Graph Anomaly Detection.jpg",
+      "imageLabel": "ICLR 2026 (Poster)",
+      "authors": [
+        {
+          "name": "Caiyang Yu",
+          "first": true
+        },
+        {
+          "name": "Wei Ju",
+          "corresponding": true
+        },
+        {
+          "name": "Haixin, Wang"
+        },
+        {
+          "name": "Yifan Wang"
+        },
+        {
+          "name": "Ziyue Qiao"
+        }
+      ],
+      "venue": "The Fourteenth International Conference on Learning Representations (ICLR 2026)",
+      "year": "2026",
+      "type": [
+        "Graph Neural Network"
+      ],
+      "level": {
+        "ccf": "Other"
+      },
+      "tags": [
+        "Graph Neural Network",
+        "Graph Anomaly Detection",
+        "Open Set"
+      ],
+      "resources": {
+        "paper": "https://openreview.net/pdf?id=zefuSJ3nOg",
+        "code": "https://github.com/yucy324/DEMO",
+        "cite": "#"
+      },
+      "citation": {
+        "gbt": "Yu C, Ju W, Wang H, et al. Dynamic Multi-sample Mixup with Gradient Exploration for Open-set Graph Anomaly Detection[C]//The Fourteenth International Conference on Learning Representations. 2026.",
+        "bibtex": "@inproceedings{yudynamic,\n title={Dynamic Multi-sample Mixup with Gradient Exploration for Open-set Graph Anomaly Detection},\n author={Yu, Caiyang and Ju, Wei and Wang, Haixin and Wang, Yifan and Qiao, Ziyue},\n booktitle={The Fourteenth International Conference on Learning Representations}\n, year={2026}\n}"
+      }
+    },
+    {
+      "badge": "Information Fusion 2025",
+      "title": "Rethinking neural architecture representation for predictors: Topological encoding in pixel space",
+      "imageSrc": "./pic/publications/Rethinking neural architecture representation for predictors Topological encoding in pixel space.jpg",
+      "authors": [
+        {
+          "name": "Caiyang Yu",
+          "first": true
+        },
+        {
+          "name": "Jian Wang"
+        },
+        {
+          "name": "Yifan Wang"
+        },
+        {
+          "name": "Wei Ju"
+        },
+        {
+          "name": "Chenwei Tang"
+        },
+        {
+          "name": "Jiancheng Lv",
+          "corresponding": true
+        }
+      ],
+      "venue": "Information Fusion",
+      "year": "2025",
+      "type": [
+        "Neural Architecture Search"
+      ],
+      "level": {
+        "sci": "SCI Q1"
+      },
+      "tags": [
+        "Neural Architecture Search",
+        "Neural Predictor",
+        "Multimodal",
+        "Topology"
+      ],
+      "resources": {
+        "paper": "https://doi.org/10.1016/j.inffus.2024.102925",
+        "cite": "#"
+      },
+      "citation": {
+        "gbt": "Yu C, Wang J, Wang Y, Ju W, Tang C, Lv J. Rethinking neural architecture representation for predictors: Topological encoding in pixel space[J]. Information Fusion, 2025, 118:102925.",
+        "bibtex": "@article{yu2025rethinking,\n title={Rethinking neural architecture representation for predictors: Topological encoding in pixel space},\n author={Yu, Caiyang and Wang, Jian and Wang, Yifan and Ju, Wei and Tang, Chenwei and Lv, Jiancheng},\n journal={Information Fusion},\n volume={118},\n pages={102925},\n year={2025},\n publisher={Elsevier}\n}\n"
+      }
+    },
+    {
+      "badge": "Big Data Mining and Analytics",
+      "title": "GPT-NAS: Neural architecture search meets generative pre-trained transformer model",
+      "imageSrc": "./pic/publications/GPT-NAS Neural architecture search meets generative pre-trained transformer model.jpg",
+      "authors": [
+        {
+          "name": "Caiyang Yu",
+          "first": true
+        },
+        {
+          "name": "Xianggen Liu"
+        },
+        {
+          "name": "Yifan Wang"
+        },
+        {
+          "name": "Yun Liu"
+        },
+        {
+          "name": "Wentao Feng"
+        },
+        {
+          "name": "Xiong Deng"
+        },
+        {
+          "name": "Chenwei Tang",
+          "corresponding": true
+        },
+        {
+          "name": "Jiancheng Lv",
+          "corresponding": true
+        }
+      ],
+      "venue": "Big Data Mining and Analytics",
+      "year": "2024",
+      "type": [
+        "Neural Architecture Search"
+      ],
+      "level": {
+        "sci": "Other"
+      },
+      "tags": [
+        "Neural Architecture Search",
+        "Generative Pre-trained Transformer"
+      ],
+      "resources": {
+        "paper": "https://ieeexplore.ieee.org/abstract/document/10681256",
+        "cite": "#"
+      },
+      "citation": {
+        "gbt": "Yu C, Liu X, Wang Y, et al. Gpt-nas: Neural architecture search meets generative pre-trained transformer model[J]. Big Data Mining and Analytics, 2024, 8(1): 45-64.",
+        "bibtex": "@article{yu2024gpt,\n title={Gpt-nas: Neural architecture search meets generative pre-trained transformer model},\n author={Yu, Caiyang and Liu, Xianggen and Wang, Yifan and Liu, Yun and Feng, Wentao and Deng, Xiong and Tang, Chenwei and Lv, Jiancheng},\n journal={Big Data Mining and Analytics},\n volume={8},\n number={1},\n pages={45--64},\n year={2024},\n publisher={TUP}\n}\n"
+      }
+    },
+    {
+      "badge": "Computers in Biology and Medicine",
+      "title": "EU-Net: Automatic U-Net neural architecture search with differential evolutionary algorithm for medical image segmentation",
+      "showOnHome": false,
+      "authors": [
+        {
+          "name": "Caiyang Yu",
+          "first": true
+        },
+        {
+          "name": "Yixi Wang"
+        },
+        {
+          "name": "Chenwei Tang"
+        },
+        {
+          "name": "Wentao Feng"
+        },
+        {
+          "name": "Jiancheng Lv",
+          "corresponding": true
+        }
+      ],
+      "venue": "Computers in Biology and Medicine",
+      "year": "2023",
+      "type": [
+        "Neural Architecture Search",
+        "Medical"
+      ],
+      "level": {
+        "sci": "SCI Q2"
+      },
+      "tags": [
+        "Neural Architecture Search",
+        "Medical Image Segmentation",
+        "U-Net"
+      ],
+      "resources": {
+        "paper": "https://www.sciencedirect.com/science/article/abs/pii/S0010482523010442",
+        "cite": "#"
+      },
+      "citation": {
+        "gbt": "Yu C, Wang Y, Tang C, et al. EU-Net: Automatic U-Net neural architecture search with differential evolutionary algorithm for medical image segmentation[J]. Computers in Biology and Medicine, 2023, 167: 107579.",
+        "bibtex": "@article{yu2023eu,\n title={EU-Net: Automatic U-Net neural architecture search with differential evolutionary algorithm for medical image segmentation},\n author={Yu, Caiyang and Wang, Yixi and Tang, Chenwei and Feng, Wentao and Lv, Jiancheng},\n journal={Computers in Biology and Medicine},\n volume={167},\n pages={107579},\n year={2023},\n publisher={Elsevier}\n}\n"
+      }
+    },
+    {
+      "badge": "Engineering with Computers",
+      "title": "SGOA: annealing-behaved grasshopper optimizer for global tasks",
+      "showOnHome": false,
+      "authors": [
+        {
+          "name": "Caiyang Yu",
+          "first": true
+        },
+        {
+          "name": "Mengxiang Chen"
+        },
+        {
+          "name": "Kai Cheng"
+        },
+        {
+          "name": "Xuehua Zhao"
+        },
+        {
+          "name": "Chao Ma"
+        },
+        {
+          "name": "Fangjun Kuang",
+          "corresponding": true
+        },
+        {
+          "name": "Huiling Chen",
+          "corresponding": true
+        }
+      ],
+      "venue": "Engineering with Computers",
+      "year": "2022",
+      "type": [
+        "Evolutionary Computation"
+      ],
+      "level": {
+        "sci": "SCI Q2"
+      },
+      "tags": [
+        "Evolutionary Computation",
+        "Grasshopper Optimization Algorithm"
+      ],
+      "resources": {
+        "paper": "https://link.springer.com/article/10.1007/s00366-020-01234-1",
+        "cite": "#"
+      },
+      "citation": {
+        "gbt": "Yu C, Chen M, Cheng K, et al. SGOA: annealing-behaved grasshopper optimizer for global tasks[J]. Engineering with Computers, 2022, 38(Suppl 5): 3761-3788.",
+        "bibtex": "@article{yu2022sgoa,\n title={SGOA: annealing-behaved grasshopper optimizer for global tasks},\n author={Yu, Caiyang and Chen, Mengxiang and Cheng, Kai and Zhao, Xuehua and Ma, Chao and Kuang, Fangjun and Chen, Huiling},\n journal={Engineering with Computers},\n volume={38},\n number={Suppl 5},\n pages={3761--3788},\n year={2022},\n publisher={Springer}\n}\n}"
+      }
+    },
+    {
+      "badge": "Expert Systems with Applications",
+      "title": "Boosting quantum rotation gate embedded slime mould algorithm",
+      "showOnHome": false,
+      "authors": [
+        {
+          "name": "Caiyang Yu",
+          "first": true
+        },
+        {
+          "name": "Ali Asghar Heidari"
+        },
+        {
+          "name": "Xiao Xue"
+        },
+        {
+          "name": "Lejun Zhang"
+        },
+        {
+          "name": "Huiling Chen",
+          "corresponding": true
+        },
+        {
+          "name": "Weibin Chen"
+        }
+      ],
+      "venue": "Expert Systems with Applications",
+      "year": "2021",
+      "type": [
+        "Evolutionary Computation"
+      ],
+      "level": {
+        "sci": "SCI Q1"
+      },
+      "tags": [
+        "Evolutionary Computation",
+        "Slime Mould Algorithm"
+      ],
+      "resources": {
+        "paper": "https://www.sciencedirect.com/science/article/abs/pii/S0957417421005236",
+        "cite": "#"
+      },
+      "citation": {
+        "gbt": "Yu C, Heidari A A, Xue X, et al. Boosting quantum rotation gate embedded slime mould algorithm[J]. Expert Systems with Applications, 2021, 181: 115082.",
+        "bibtex": "@article{yu2021boosting,\n title={Boosting quantum rotation gate embedded slime mould algorithm},\n author={Yu, Caiyang and Heidari, Ali Asghar and Xue, Xiao and Zhang, Lejun and Chen, Huiling and Chen, Weibin},\n journal={Expert Systems with Applications},\n volume={181},\n pages={115082},\n year={2021},\n publisher={Elsevier}\n}\n"
+      }
+    },
+    {
+      "title": "A quantum-behaved simulated annealing algorithm-based moth-flame optimization method",
+      "authors": [
+        {
+          "name": "Caiyang Yu",
+          "first": true
+        },
+        {
+          "name": "Ali Asghar Heidari"
+        },
+        {
+          "name": "Huiling Chen",
+          "corresponding": true
+        }
+      ],
+      "venue": "Applied Mathematical Modelling",
+      "year": "2020",
+      "type": "Evolutionary Computation",
+      "showOnHome": false,
+      "badge": "Applied Mathematical Modelling",
+      "tags": [
+        "Evolutionary Computation",
+        "Moth-Flame Optimization"
+      ],
+      "level": {
+        "sci": "SCI Q2"
+      },
+      "resources": {
+        "paper": "https://www.sciencedirect.com/science/article/pii/S0307904X20302122"
+      },
+      "citation": {
+        "gbt": "Yu C, Heidari A A, Chen H. A quantum-behaved simulated annealing algorithm-based moth-flame optimization method[J]. Applied Mathematical Modelling, 2020, 87: 1-19.",
+        "bibtex": "@article{yu2020quantum,\n  title={A quantum-behaved simulated annealing algorithm-based moth-flame optimization method},\n  author={Yu, Caiyang and Heidari, Ali Asghar and Chen, Huiling},\n  journal={Applied Mathematical Modelling},\n  volume={87},\n  pages={1--19},\n  year={2020},\n  publisher={Elsevier}\n}"
+      }
+    },
+    {
+      "title": "Quantum-like mutation-induced dragonfly-inspired optimization approach",
+      "authors": [
+        {
+          "name": "Caiyang Yu",
+          "first": true
+        },
+        {
+          "name": "Zhennao Cai"
+        },
+        {
+          "name": "Xiaojia Ye"
+        },
+        {
+          "name": "Mingjing Wang"
+        },
+        {
+          "name": "Xuehua Zhao"
+        },
+        {
+          "name": "Guoxi Liang"
+        },
+        {
+          "name": "Huiling Chen",
+          "corresponding": true
+        },
+        {
+          "name": "Chengye Li"
+        }
+      ],
+      "venue": "Mathematics and Computers in Simulation",
+      "year": "2020",
+      "type": "Evolutionary Computation",
+      "showOnHome": false,
+      "badge": "Mathematics and Computers in Simulation",
+      "tags": [
+        "Evolutionary Computation",
+        "dragonfly algorithm"
+      ],
+      "level": {
+        "sci": "SCI Q3"
+      },
+      "resources": {
+        "paper": "https://www.sciencedirect.com/science/article/abs/pii/S0378475420302147"
+      },
+      "citation": {
+        "gbt": "Yu C, Cai Z, Ye X, et al. Quantum-like mutation-induced dragonfly-inspired optimization approach[J]. Mathematics and Computers in Simulation, 2020, 178: 259-289.",
+        "bibtex": "@article{yu2020quantum,\n  title={Quantum-like mutation-induced dragonfly-inspired optimization approach},\n  author={Yu, Caiyang and Cai, Zhennao and Ye, Xiaojia and Wang, Mingjing and Zhao, Xuehua and Liang, Guoxi and Chen, Huiling and Li, Chengye},\n  journal={Mathematics and Computers in Simulation},\n  volume={178},\n  pages={259--289},\n  year={2020},\n  publisher={Elsevier}\n}"
+      }
+    },
+    {
+      "title": "Deep learning in nuclear industry: A survey",
+      "authors": [
+        {
+          "name": "Chenwei Tang",
+          "first": true
+        },
+        {
+          "name": "Caiyang Yu"
+        },
+        {
+          "name": "Yi Gao"
+        },
+        {
+          "name": "Jianming Chen"
+        },
+        {
+          "name": "Jiaming Yang"
+        },
+        {
+          "name": "Jiuling Lang"
+        },
+        {
+          "name": "Chuan Liu"
+        },
+        {
+          "name": "Ling Zhong"
+        },
+        {
+          "name": "Zhenan He"
+        },
+        {
+          "name": "Jiancheng Lv",
+          "corresponding": true
+        }
+      ],
+      "venue": "Big Data Mining and Analytics",
+      "year": "2022",
+      "type": "Other",
+      "showOnHome": false,
+      "badge": "Big Data Mining and Analytics",
+      "tags": [
+        "Deep Learning",
+        "nuclear industry"
+      ],
+      "level": {
+        "sci": "Other"
+      },
+      "resources": {
+        "paper": "https://ieeexplore.ieee.org/abstract/document/9691301"
+      },
+      "citation": {
+        "gbt": "Tang C, Yu C, Gao Y, et al. Deep learning in nuclear industry: A survey[J]. Big Data Mining and Analytics, 2022, 5(2): 140-160.",
+        "bibtex": "@article{tang2022deep,\n  title={Deep learning in nuclear industry: A survey},\n  author={Tang, Chenwei and Yu, Caiyang and Gao, Yi and Chen, Jianming and Yang, Jiaming and Lang, Jiuling and Liu, Chuan and Zhong, Ling and He, Zhenan and Lv, Jiancheng},\n  journal={Big Data Mining and Analytics},\n  volume={5},\n  number={2},\n  pages={140--160},\n  year={2022},\n  publisher={TUP}\n}"
+      }
+    }
+  ]
+}
