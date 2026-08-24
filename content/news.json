@@ -1,25 +1,108 @@
 {
-  "items": [
-    {
-      "date": "2026.02",
-      "text": {
-        "en": "Launched the new personal homepage with timeline and multi-select filters.",
-        "zh": "上线新版个人主页：加入时间轴和多选筛选。"
-      }
-    },
-    {
-      "date": "2026.01",
-      "text": {
-        "en": "One multimodal paper was accepted by an international conference (example).",
-        "zh": "一篇多模态方向论文被国际会议接收（示例）。"
-      }
-    },
-    {
-      "date": "2025.11",
-      "text": {
-        "en": "Invited to share model deployment experience in a technical community (example).",
-        "zh": "受邀在技术社区分享模型部署经验（示例）。"
-      }
-    }
-  ]
+    "items":  [
+                  {
+                      "date":  "2025.01",
+                      "type":  "publication",
+                      "text":  {
+                                   "en":  "One paper has been accepted by Information Fusion",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2025.10",
+                      "type":  "publication",
+                      "text":  {
+                                   "en":  "One paper has been accepted by ACM MM 2026",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.01",
+                      "type":  "publication",
+                      "text":  {
+                                   "en":  "One paper has been accepted by ICLR 2026",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.02",
+                      "type":  "publication",
+                      "text":  {
+                                   "en":  "One paper has been accepted by CVPR 2026",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.02",
+                      "type":  "service",
+                      "text":  {
+                                   "en":  "Invited to serve as the reviewer for ICML 2026",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.04",
+                      "type":  "publication",
+                      "text":  {
+                                   "en":  "One paper has been accepted by Pattern Recognition 2026",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.05",
+                      "type":  "publication",
+                      "text":  {
+                                   "en":  "One paper has been accepted by IJCAI 2026",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.05",
+                      "type":  "publication",
+                      "text":  {
+                                   "en":  "One paper has been accepted by ICML 2026",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.05",
+                      "type":  "publication",
+                      "text":  {
+                                   "en":  "One paper has been accepted by Information Processing & Management",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.05",
+                      "type":  "service",
+                      "text":  {
+                                   "en":  "Invited to serve as the reviewer for NeurIPS 2026",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.07",
+                      "type":  "service",
+                      "text":  {
+                                   "en":  "Invited to serve as the Program Committee Member for AAAI 2027",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.07",
+                      "type":  "publication",
+                      "text":  {
+                                   "en":  "One paper has been accepted by IEEE Transactions on Knowledge and Data Engineering",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.08",
+                      "type":  "publication",
+                      "text":  {
+                                   "en":  "One paper has been accepted by EMNLP 2026 (Finding)",
+                                   "zh":  ""
+                               }
+                  }
+              ]
 }

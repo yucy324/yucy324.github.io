@@ -20,7 +20,12 @@
         "en": "Email",
         "zh": "邮箱"
       },
-      "url": "yucy324@gmail.com"
+      "popup": "email",
+      "emails": [
+        "yucy@wzu.edu.cn",
+        "yucy324@gmail.com"
+      ],
+      "url": "mailto:yucy@wzu.edu.cn"
     },
 
     {

@@ -4,6 +4,7 @@ const navLinks = Array.from(document.querySelectorAll(".nav-link"));
 const masthead = document.querySelector(".masthead");
 const navOverview = document.getElementById("navOverview");
 const navNews = document.getElementById("navNews");
+const navService = document.getElementById("navService");
 const navJourney = document.getElementById("navJourney");
 const navPublications = document.getElementById("navPublications");
 const navProjects = document.getElementById("navProjects");
@@ -13,6 +14,7 @@ const navContact = document.getElementById("navContact");
 const profileName = document.getElementById("profileName");
 const profileTitle = document.getElementById("profileTitle");
 const profileBio = document.getElementById("profileBio");
+const profileCard = document.querySelector(".profile-card");
 const profileSections = document.getElementById("profileSections");
 const profileMeta = document.getElementById("profileMeta");
 
@@ -21,7 +23,9 @@ const summaryText = document.getElementById("summaryText");
 const aboutText = document.getElementById("aboutText");
 const aboutFeatures = document.getElementById("aboutFeatures");
 
+const longtermList = document.getElementById("longtermList");
 const newsList = document.getElementById("newsList");
+const serviceList = document.getElementById("serviceList");
 const journeyList = document.getElementById("journeyList");
 const pubFilterChips = document.getElementById("pubFilterChips");
 const pubList = document.getElementById("pubList");
@@ -33,10 +37,9 @@ const contactEmail = document.getElementById("contactEmail");
 const updatedAt = document.getElementById("updatedAt");
 const updatedLabel = document.getElementById("updatedLabel");
 const footerInspired = document.getElementById("footerInspired");
-const profileGlobeSection = document.getElementById("profileGlobeSection");
-const profileGlobeTitle = document.getElementById("profileGlobeTitle");
-const clustrGlobeScript = document.getElementById("clstr_globe");
+const longtermTitle = document.getElementById("longtermTitle");
 const newsTitle = document.getElementById("newsTitle");
+const serviceTitle = document.getElementById("serviceTitle");
 const journeyTitle = document.getElementById("journeyTitle");
 const publicationsTitle = document.getElementById("publicationsTitle");
 const publicationsTitleText = document.getElementById("publicationsTitleText");
@@ -49,12 +52,12 @@ const projectFilterHint = document.getElementById("projectFilterHint");
 const langBtnEn = document.getElementById("langBtnEn");
 const langBtnZh = document.getElementById("langBtnZh");
 let emailModal = null;
-let emailModalAddress = null;
-let emailModalCopyBtn = null;
+let emailModalList = null;
 let emailModalKicker = null;
 let emailModalTitle = null;
 let emailModalClose = null;
 let pubImageModal = null;
+let pubImageModalPanel = null;
 let pubImageModalImg = null;
 let pubImageModalPdf = null;
 let contentCache = null;
@@ -77,15 +80,12 @@ const PROFILE_TIME_TZ = [
   { key: "utc8", label: "UTC-8 Time", timeZone: "Etc/GMT+8", fallbackOffset: -8 },
 ];
 let profileTimeTicker = null;
-const PUBLICATION_SORT_MODE = {
-  YEAR: "year",
-  AUTHOR: "author",
-};
+const PUBLICATION_COUNT_ELEMENT_ID = "pubVisibleCount";
 const PUBLICATION_AUTHOR_ROLE_OPTIONS = [
   { label: "First/Co-first", value: "caiyang-first" },
   { label: "Corresponding/Co-corresponding", value: "caiyang-corresponding" },
 ];
-let currentPublicationSortMode = PUBLICATION_SORT_MODE.YEAR;
+const HOME_PUBLICATION_LIMIT = 5;
 let currentPublicationCards = [];
 
 const CONTENT_BASE = window.CONTENT_BASE_PATH || "./content";
@@ -112,12 +112,13 @@ const FALLBACK = {
     ],
     meta: [
       { icon: "📍", iconSrc: "./pic/address.png", text: "Wenzhou, China" },
-      { icon: "✉️", iconSrc: "./pic/email.png", text: "Email", url: "mailto:you@example.com" },
       {
-        icon: "🔩",
-        iconSrc: "./pic/researchgate.png",
-        text: "ResearchGate",
-        url: "https://www.researchgate.net/",
+        icon: "✉️",
+        iconSrc: "./pic/email.png",
+        text: "Email",
+        popup: "email",
+        emails: ["yucy@wzu.edu.cn", "yucy324@gmail.com"],
+        url: "mailto:yucy@wzu.edu.cn",
       },
       { icon: "🐙", iconSrc: "./pic/GitHub.png", text: "Github", url: "https://github.com/" },
       {
@@ -154,11 +155,38 @@ const FALLBACK = {
       },
     ],
   },
+  longterm: {
+    items: [
+      { title: "Student Recruitment", detail: "Looking for motivated students to join long-term research projects." },
+      { title: "Open Collaboration", detail: "Open to collaboration on multimodal AI and neural architecture search." },
+      { title: "Research Internship", detail: "Interested in hosting research-oriented interns for joint publications." },
+    ],
+  },
   news: {
     items: [
-      { date: "2026.02", text: "Launched the new personal homepage with timeline and multi-select filters." },
-      { date: "2026.01", text: "One multimodal paper accepted by a top conference (example)." },
-      { date: "2025.11", text: "Invited to share model deployment experience in a tech community (example)." },
+      {
+        date: "2026.02",
+        type: "service",
+        text: "Launched the new personal homepage with timeline and multi-select filters.",
+      },
+      {
+        date: "2026.01",
+        type: "publication",
+        text: "One multimodal paper accepted by a top conference (example).",
+      },
+      {
+        date: "2025.11",
+        type: "service",
+        text: "Invited to share model deployment experience in a tech community (example).",
+      },
+    ],
+  },
+  service: {
+    role: "Program Committee Member and Reviewer",
+    services: [
+      { name: "AAAI 2027", year: 2027 },
+      { name: "NeurIPS 2026", year: 2026 },
+      { name: "ICML 2026", year: 2026 },
     ],
   },
   journey: {
@@ -184,7 +212,6 @@ const FALLBACK = {
     items: [
       {
         badge: "CVPR 2026",
-        imageSrc: "./assets/img/avatar.svg",
         title: "Title of Your Paper One",
         authors: "Your Name, Co-author A, Co-author B",
         venue: "Conference / Journal, 2026",
@@ -196,7 +223,6 @@ const FALLBACK = {
       },
       {
         badge: "NeurIPS 2025",
-        imageSrc: "./assets/img/avatar.svg",
         title: "Title of Your Paper Two",
         authors: "Your Name, Co-author C",
         venue: "Conference / Journal, 2025",
@@ -208,7 +234,6 @@ const FALLBACK = {
       },
       {
         badge: "ICML 2025",
-        imageSrc: "./assets/img/avatar.svg",
         title: "Title of Your Paper Three",
         authors: "Your Name, Co-author D, Co-author E",
         venue: "Conference / Journal, 2025",
@@ -263,40 +288,8 @@ const FALLBACK = {
   },
   meta: {
     updatedAt: "",
-    clustrmaps: {
-      enabled: true,
-      title: "Visitor Globe",
-      siteId: "1c979",
-      globeToken: "Vr-eYn9fNnJRWR6kcXJa5akQlOll4HKWjM--Xfn5inY",
-    },
   },
 };
-
-const revealObserver = new IntersectionObserver(
-  (entries, observer) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) {
-        return;
-      }
-      entry.target.classList.add("in");
-      observer.unobserve(entry.target);
-    });
-  },
-  { threshold: 0.12 },
-);
-
-const counterObserver = new IntersectionObserver(
-  (entries, observer) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) {
-        return;
-      }
-      animateCounter(entry.target);
-      observer.unobserve(entry.target);
-    });
-  },
-  { threshold: 0.4 },
-);
 
 const slugify = (text) =>
   String(text || "")
@@ -429,6 +422,7 @@ const UI_TEXT = {
     nav: {
       overview: "Profile",
       news: "News",
+      service: "Service",
       journey: "Journey",
       publications: "Publications",
       projects: "Projects",
@@ -437,6 +431,7 @@ const UI_TEXT = {
     },
     titles: {
       news: "News",
+      service: "Academic Service",
       journey: "Journey Timeline",
       publications: "Publications",
       projects: "Projects",
@@ -462,6 +457,7 @@ const UI_TEXT = {
     nav: {
       overview: "Profile",
       news: "News",
+      service: "Service",
       journey: "Journey",
       publications: "Publications",
       projects: "Projects",
@@ -470,6 +466,7 @@ const UI_TEXT = {
     },
     titles: {
       news: "News",
+      service: "Academic Service",
       journey: "Journey Timeline",
       publications: "Publications",
       projects: "Projects",
@@ -491,6 +488,9 @@ const UI_TEXT = {
     },
   },
 };
+
+UI_TEXT.en.titles.longterm = "Long-term Needs";
+UI_TEXT.zh.titles.longterm = "Long-term Needs";
 
 const getUiText = () => UI_TEXT[currentLang] || UI_TEXT.en;
 
@@ -526,12 +526,12 @@ const getEnglishText = (value, fallback = "") => {
   return String(value);
 };
 
-const updateEmailModalLanguage = (copied = false) => {
+const updateEmailModalLanguage = () => {
   const ui = UI_TEXT.en;
   emailModalKicker = emailModalKicker || document.getElementById("emailModalKicker");
   emailModalTitle = emailModalTitle || document.getElementById("emailModalTitle");
   emailModalClose = emailModalClose || document.getElementById("emailModalClose");
-  emailModalCopyBtn = emailModalCopyBtn || document.getElementById("emailModalCopyBtn");
+  emailModalList = emailModalList || document.getElementById("emailModalList");
 
   if (emailModalClose) {
     emailModalClose.setAttribute("aria-label", ui.emailModal.closeAria);
@@ -542,10 +542,11 @@ const updateEmailModalLanguage = (copied = false) => {
   if (emailModalTitle) {
     emailModalTitle.textContent = ui.emailModal.title;
   }
-  const copyLabel = emailModalCopyBtn?.querySelector(".copy-label");
-  if (copyLabel) {
-    copyLabel.textContent = copied ? ui.emailModal.copied : ui.emailModal.copy;
-  }
+  emailModalList?.querySelectorAll(".email-modal__copy").forEach((button) => {
+    const email = button.dataset.email || "";
+    button.setAttribute("aria-label", `${ui.emailModal.copy}: ${email}`);
+    button.title = ui.emailModal.copy;
+  });
 };
 
 const applyStaticLanguage = () => {
@@ -561,6 +562,9 @@ const applyStaticLanguage = () => {
   }
   if (navNews) {
     navNews.textContent = ui.nav.news;
+  }
+  if (navService) {
+    navService.textContent = ui.nav.service;
   }
   if (navJourney) {
     navJourney.textContent = ui.nav.journey;
@@ -578,8 +582,14 @@ const applyStaticLanguage = () => {
     navContact.textContent = ui.nav.contact;
   }
 
+  if (longtermTitle) {
+    longtermTitle.textContent = ui.titles.longterm || "Long-term Needs";
+  }
   if (newsTitle) {
     newsTitle.textContent = ui.titles.news;
+  }
+  if (serviceTitle) {
+    serviceTitle.textContent = ui.titles.service;
   }
   if (journeyTitle) {
     journeyTitle.textContent = ui.titles.journey;
@@ -615,39 +625,13 @@ const applyStaticLanguage = () => {
       const corresponding = document.createElement("span");
       corresponding.className = "hint-author-item";
       corresponding.textContent = "✉ Corresponding Author";
+      const correspondingGroup = document.createElement("span");
+      correspondingGroup.className = "hint-author-pair";
+      correspondingGroup.appendChild(corresponding);
 
       legend.appendChild(first);
-      legend.appendChild(corresponding);
+      legend.appendChild(correspondingGroup);
       pubFilterHint.appendChild(legend);
-
-      if (isPublicationsPage) {
-        const sortSwitch = document.createElement("div");
-        sortSwitch.className = "pub-sort-switch";
-
-        const sortYearBtn = document.createElement("button");
-        sortYearBtn.type = "button";
-        sortYearBtn.className = "pub-sort-btn";
-        sortYearBtn.dataset.sortMode = PUBLICATION_SORT_MODE.YEAR;
-        sortYearBtn.textContent = "Sort by Year";
-        sortYearBtn.addEventListener("click", () => setPublicationSortMode(PUBLICATION_SORT_MODE.YEAR));
-
-        const sortDivider = document.createElement("span");
-        sortDivider.className = "pub-sort-divider";
-        sortDivider.textContent = "/";
-
-        const sortAuthorBtn = document.createElement("button");
-        sortAuthorBtn.type = "button";
-        sortAuthorBtn.className = "pub-sort-btn";
-        sortAuthorBtn.dataset.sortMode = PUBLICATION_SORT_MODE.AUTHOR;
-        sortAuthorBtn.textContent = "Sort by Author Order";
-        sortAuthorBtn.addEventListener("click", () => setPublicationSortMode(PUBLICATION_SORT_MODE.AUTHOR));
-
-        sortSwitch.appendChild(sortYearBtn);
-        sortSwitch.appendChild(sortDivider);
-        sortSwitch.appendChild(sortAuthorBtn);
-        pubFilterHint.appendChild(sortSwitch);
-        updatePublicationSortSwitchUI();
-      }
     } else {
       pubFilterHint.textContent = ui.publicationFilterHint || ui.filterHint;
     }
@@ -673,17 +657,20 @@ const applyStaticLanguage = () => {
     langBtnZh.setAttribute("aria-pressed", currentLang === "zh" ? "true" : "false");
   }
 
-  updateEmailModalLanguage(false);
+  updateEmailModalLanguage();
 };
 
 const observeRevealElements = (root = document) => {
   root.querySelectorAll(".reveal").forEach((el) => {
-    if (el.dataset.revealBound === "1") {
-      return;
-    }
-    el.dataset.revealBound = "1";
-    revealObserver.observe(el);
+    el.classList.add("in");
   });
+};
+
+const decorateSummaryText = () => {
+  if (!summaryText) {
+    return;
+  }
+  summaryText.classList.remove("summary-text--staged");
 };
 
 const createTag = (text) => {
@@ -746,7 +733,7 @@ const formatTimeByIanaTimeZone = (baseDate, timeZone, fallbackOffset = 0) => {
 };
 
 const ensureProfileTimePanel = () => {
-  if (isPublicationsPage || !profileGlobeSection) {
+  if (!profileCard) {
     return null;
   }
 
@@ -806,14 +793,10 @@ const ensureProfileTimePanel = () => {
     panel.appendChild(grid);
   }
 
-  const parent = profileGlobeSection.parentElement;
-  if (parent) {
-    const nextNode = profileGlobeSection.nextSibling;
-    if (nextNode) {
-      parent.insertBefore(panel, nextNode);
-    } else {
-      parent.appendChild(panel);
-    }
+  if (profileMeta?.parentElement === profileCard) {
+    profileMeta.insertAdjacentElement("afterend", panel);
+  } else {
+    profileCard.appendChild(panel);
   }
 
   return panel;
@@ -833,16 +816,6 @@ const updateProfileTimes = () => {
 };
 
 const startProfileTimeTicker = () => {
-  if (isPublicationsPage) {
-    const panel = document.getElementById(PROFILE_TIME_PANEL_ID);
-    panel?.remove();
-    if (profileTimeTicker) {
-      window.clearInterval(profileTimeTicker);
-      profileTimeTicker = null;
-    }
-    return;
-  }
-
   const panel = ensureProfileTimePanel();
   if (!panel) {
     return;
@@ -853,29 +826,32 @@ const startProfileTimeTicker = () => {
   }
 };
 
-const extractEmail = (item) => {
+const extractEmails = (item) => {
   if (!item) {
-    return "";
+    return [];
   }
 
+  if (Array.isArray(item.emails)) {
+    return Array.from(new Set(item.emails.map((email) => String(email || "").trim()).filter(Boolean)));
+  }
   if (item.email) {
-    return String(item.email).trim();
+    return [String(item.email).trim()].filter(Boolean);
   }
 
   const rawUrl = String(item.url || "").trim();
   if (!rawUrl) {
-    return "";
+    return [];
   }
 
   if (rawUrl.startsWith("mailto:")) {
-    return rawUrl.slice("mailto:".length).trim();
+    return [rawUrl.slice("mailto:".length).trim()].filter(Boolean);
   }
 
   if (rawUrl.includes("@") && !/^https?:\/\//.test(rawUrl)) {
-    return rawUrl;
+    return [rawUrl];
   }
 
-  return "";
+  return [];
 };
 
 const closeEmailModal = () => {
@@ -888,14 +864,32 @@ const closeEmailModal = () => {
   document.body.classList.toggle("modal-open", hasOpenModal);
 };
 
-const openEmailModal = (email) => {
-  if (!emailModal || !emailModalAddress || !emailModalCopyBtn) {
+const openEmailModal = (emails) => {
+  if (!emailModal || !emailModalList) {
     return;
   }
 
-  emailModalAddress.textContent = email;
-  emailModalCopyBtn.dataset.email = email;
-  updateEmailModalLanguage(false);
+  const normalizedEmails = Array.from(
+    new Set((Array.isArray(emails) ? emails : [emails]).map((email) => String(email || "").trim()).filter(Boolean)),
+  );
+  emailModalList.replaceChildren();
+  normalizedEmails.forEach((email) => {
+    const row = document.createElement("div");
+    row.className = "email-modal__row";
+
+    const address = document.createElement("span");
+    address.className = "email-modal__address";
+    address.textContent = email;
+
+    const copyButton = document.createElement("button");
+    copyButton.type = "button";
+    copyButton.className = "email-modal__copy";
+    copyButton.dataset.email = email;
+    copyButton.innerHTML = '<span class="copy-icon" aria-hidden="true"></span>';
+    row.append(address, copyButton);
+    emailModalList.appendChild(row);
+  });
+  updateEmailModalLanguage();
   emailModal.classList.add("open");
   document.body.classList.add("modal-open");
 };
@@ -920,8 +914,7 @@ const copyText = async (text) => {
 const initEmailModal = () => {
   if (document.getElementById("emailModal")) {
     emailModal = document.getElementById("emailModal");
-    emailModalAddress = document.getElementById("emailModalAddress");
-    emailModalCopyBtn = document.getElementById("emailModalCopyBtn");
+    emailModalList = document.getElementById("emailModalList");
     return;
   }
 
@@ -931,51 +924,48 @@ const initEmailModal = () => {
   wrapper.innerHTML = `
     <div class="email-modal__backdrop" data-close="1"></div>
     <div class="email-modal__card" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
-      <button type="button" class="email-modal__close" id="emailModalClose" aria-label="Close">脳</button>
+      <button type="button" class="email-modal__close" id="emailModalClose" aria-label="Close">&#215;</button>
       <p class="email-modal__kicker" id="emailModalKicker">Contact</p>
       <h3 class="email-modal__title" id="emailModalTitle">Email Address</h3>
-      <p class="email-modal__address" id="emailModalAddress">you@example.com</p>
-      <button type="button" class="email-modal__copy" id="emailModalCopyBtn" data-email="">
-        <span class="copy-icon" aria-hidden="true"></span>
-        <span class="copy-label">Copy email</span>
-      </button>
+      <div class="email-modal__list" id="emailModalList"></div>
     </div>
   `;
 
-  document.body.appendChild(wrapper);
+  document.documentElement.appendChild(wrapper);
 
   emailModal = wrapper;
-  emailModalAddress = document.getElementById("emailModalAddress");
-  emailModalCopyBtn = document.getElementById("emailModalCopyBtn");
+  emailModalList = document.getElementById("emailModalList");
   emailModalClose = document.getElementById("emailModalClose");
   emailModalKicker = document.getElementById("emailModalKicker");
   emailModalTitle = document.getElementById("emailModalTitle");
 
-  wrapper.addEventListener("click", (event) => {
+  wrapper.addEventListener("click", async (event) => {
     const target = event.target;
     if (target instanceof HTMLElement && target.dataset.close === "1") {
       closeEmailModal();
+      return;
+    }
+    const copyButton = target instanceof Element ? target.closest(".email-modal__copy") : null;
+    if (copyButton instanceof HTMLButtonElement) {
+      const email = copyButton.dataset.email || "";
+      if (!email) return;
+      try {
+        await copyText(email);
+        copyButton.classList.add("copied");
+        copyButton.setAttribute("aria-label", `${UI_TEXT.en.emailModal.copied}: ${email}`);
+        copyButton.title = UI_TEXT.en.emailModal.copied;
+        window.setTimeout(() => {
+          copyButton.classList.remove("copied");
+          copyButton.setAttribute("aria-label", `${UI_TEXT.en.emailModal.copy}: ${email}`);
+          copyButton.title = UI_TEXT.en.emailModal.copy;
+        }, 1200);
+      } catch (err) {
+        console.error("Failed to copy email.", err);
+      }
     }
   });
 
   emailModalClose?.addEventListener("click", closeEmailModal);
-
-  emailModalCopyBtn?.addEventListener("click", async () => {
-    const email = emailModalCopyBtn.dataset.email || "";
-    if (!email) {
-      return;
-    }
-
-    try {
-      await copyText(email);
-      const label = emailModalCopyBtn.querySelector(".copy-label");
-      if (label) {
-        label.textContent = UI_TEXT.en.emailModal.copied;
-      }
-    } catch (err) {
-      console.error("Failed to copy email.", err);
-    }
-  });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
@@ -983,7 +973,7 @@ const initEmailModal = () => {
     }
   });
 
-  updateEmailModalLanguage(false);
+  updateEmailModalLanguage();
 };
 
 const closePublicationImageModal = () => {
@@ -992,35 +982,46 @@ const closePublicationImageModal = () => {
   }
   pubImageModal.classList.remove("open");
   pubImageModal.classList.remove("pdf-mode");
-  if (pubImageModalImg) {
-    pubImageModalImg.src = "";
+  if (pubImageModalPanel) {
+    pubImageModalPanel.replaceChildren();
   }
-  if (pubImageModalPdf) {
-    pubImageModalPdf.src = "about:blank";
-  }
+  pubImageModalImg = null;
+  pubImageModalPdf = null;
   const hasOpenModal =
     pubImageModal.classList.contains("open") || Boolean(emailModal?.classList.contains("open"));
   document.body.classList.toggle("modal-open", hasOpenModal);
 };
 
 const openPublicationImageModal = (src, alt = "Publication image") => {
-  if (!pubImageModal || !pubImageModalImg || !src) {
+  if (!pubImageModal || !pubImageModalPanel || !src) {
     return;
   }
   const mediaSrc = resolveAssetUrl(src);
   const pdf = isPdfAsset(mediaSrc);
 
+  pubImageModalPanel.replaceChildren();
+  pubImageModalImg = null;
+  pubImageModalPdf = null;
+
   if (pdf) {
-    if (pubImageModalPdf) {
-      pubImageModalPdf.src = buildPdfPreviewSrc(mediaSrc);
-    }
+    const iframe = document.createElement("iframe");
+    iframe.id = "pubImageModalPdf";
+    iframe.className = "pub-image-modal__pdf";
+    iframe.src = buildPdfPreviewSrc(mediaSrc);
+    iframe.title = "Publication PDF preview";
+    pubImageModalPanel.appendChild(iframe);
+    pubImageModalPdf = iframe;
     pubImageModal.classList.add("pdf-mode");
-    pubImageModalImg.src = "";
   } else {
     pubImageModal.classList.remove("pdf-mode");
-    pubImageModalImg.src = mediaSrc;
+    const img = document.createElement("img");
+    img.id = "pubImageModalImg";
+    img.className = "pub-image-modal__img";
+    img.src = mediaSrc;
+    img.alt = alt;
+    pubImageModalPanel.appendChild(img);
+    pubImageModalImg = img;
   }
-  pubImageModalImg.alt = alt;
   pubImageModal.classList.add("open");
   document.body.classList.add("modal-open");
 };
@@ -1028,6 +1029,7 @@ const openPublicationImageModal = (src, alt = "Publication image") => {
 const initPublicationImageModal = () => {
   if (document.getElementById("pubImageModal")) {
     pubImageModal = document.getElementById("pubImageModal");
+    pubImageModalPanel = document.getElementById("pubImageModalPanel");
     pubImageModalImg = document.getElementById("pubImageModalImg");
     pubImageModalPdf = document.getElementById("pubImageModalPdf");
     return;
@@ -1038,21 +1040,23 @@ const initPublicationImageModal = () => {
   wrapper.className = "pub-image-modal";
   wrapper.innerHTML = `
     <div class="pub-image-modal__backdrop" data-close="1"></div>
-    <div class="pub-image-modal__panel" role="dialog" aria-modal="true" aria-label="Publication image preview">
-      <img id="pubImageModalImg" class="pub-image-modal__img" src="" alt="Publication image preview" />
-      <iframe id="pubImageModalPdf" class="pub-image-modal__pdf" src="about:blank" title="Publication PDF preview"></iframe>
-    </div>
+    <div class="pub-image-modal__panel" id="pubImageModalPanel" role="dialog" aria-modal="true" aria-label="Publication image preview"></div>
   `;
 
-  document.body.appendChild(wrapper);
+  document.documentElement.appendChild(wrapper);
 
   pubImageModal = wrapper;
-  pubImageModalImg = document.getElementById("pubImageModalImg");
-  pubImageModalPdf = document.getElementById("pubImageModalPdf");
+  pubImageModalPanel = document.getElementById("pubImageModalPanel");
+  pubImageModalImg = null;
+  pubImageModalPdf = null;
 
   wrapper.addEventListener("click", (event) => {
     const target = event.target;
-    if (target instanceof HTMLElement && target.dataset.close === "1") {
+    if (
+      target === wrapper ||
+      target === pubImageModalPanel ||
+      (target instanceof HTMLElement && target.dataset.close === "1")
+    ) {
       closePublicationImageModal();
     }
   });
@@ -1246,20 +1250,53 @@ const normalizePublicationYear = (item) => {
   return "";
 };
 
+const getHomePagePublicationItems = (items) => {
+  return (items || []).slice(-HOME_PUBLICATION_LIMIT);
+};
+
 const normalizePublicationTaxonomy = (item) => {
-  const rawLevelScalar = typeof item?.level === "string" ? item.level : "";
   const types = normalizePublicationTypeLabels(
     item?.type || item?.category?.type || item?.articleType || "",
     item?.tags,
   );
-  const sci = normalizeSciLabel(
-    item?.level?.sci || item?.sci || item?.tier?.sci || item?.rank?.sci || rawLevelScalar,
+  const rawLevels = [];
+  const addRawLevel = (value) => {
+    if (Array.isArray(value)) {
+      value.forEach(addRawLevel);
+      return;
+    }
+    if (value && typeof value === "object") {
+      addRawLevel(value.sci);
+      addRawLevel(value.ccf);
+      addRawLevel(value.items);
+      addRawLevel(value.values);
+      return;
+    }
+    getEnglishText(value)
+      .split(/[,，;；/|]+/)
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .forEach((part) => rawLevels.push(part));
+  };
+
+  addRawLevel(item?.level);
+  addRawLevel(item?.sci);
+  addRawLevel(item?.ccf);
+  addRawLevel(item?.tier?.sci);
+  addRawLevel(item?.tier?.ccf);
+  addRawLevel(item?.rank?.sci);
+  addRawLevel(item?.rank?.ccf);
+
+  const levels = Array.from(
+    new Set(
+      rawLevels
+        .flatMap((value) => [normalizeSciLabel(value), normalizeCcfLabel(value)])
+        .filter(Boolean),
+    ),
   );
-  const ccf = normalizeCcfLabel(
-    item?.level?.ccf || item?.ccf || item?.tier?.ccf || item?.rank?.ccf || rawLevelScalar,
-  );
+  const sci = levels.find((level) => level.startsWith("SCI ")) || "";
+  const ccf = levels.find((level) => level.startsWith("CCF ")) || "";
   const year = normalizePublicationYear(item);
-  const levels = Array.from(new Set([sci, ccf].filter(Boolean)));
   if (levels.length === 0) {
     levels.push("Other");
   }
@@ -1268,25 +1305,16 @@ const normalizePublicationTaxonomy = (item) => {
 };
 
 const collectPublicationFilterOptions = (items) => {
-  const typeMap = new Map();
   const yearSet = new Set();
 
   (items || []).forEach((item) => {
     const taxonomy = normalizePublicationTaxonomy(item);
-
-    (taxonomy.types || []).forEach((label) => {
-      const typeKey = slugify(label);
-      if (typeKey && !typeMap.has(typeKey)) {
-        typeMap.set(typeKey, label);
-      }
-    });
     if (taxonomy.year) {
       yearSet.add(taxonomy.year);
     }
   });
 
   return {
-    type: Array.from(typeMap.values()),
     year: Array.from(yearSet).sort((a, b) => Number(b) - Number(a)),
     level: [...PUBLICATION_LEVEL_ORDER],
     authorRole: [...PUBLICATION_AUTHOR_ROLE_OPTIONS],
@@ -1335,7 +1363,6 @@ const publicationActionMeta = (kind) => {
   const config = {
     paper: { icon: "📄", text: "Paper" },
     code: { icon: "💻", text: "Code" },
-    cite: { icon: "❝", text: "Cite" },
   };
   return config[kind] || { icon: "🔗", text: "Link" };
 };
@@ -1386,40 +1413,6 @@ const createPaperAction = (url) => {
     showTransientToast("Coming Soon", "info", 2300);
   });
   return button;
-};
-
-const normalizePublicationCitation = (item) => {
-  const pick = (...values) => {
-    const hit = values.find((v) => typeof v === "string" && String(v).trim());
-    return String(hit || "").trim();
-  };
-
-  const citationObjCandidates = [
-    item?.citation,
-    item?.citations,
-    item?.resources?.citation,
-    item?.resources?.cite,
-  ];
-  const citationObj =
-    citationObjCandidates.find((x) => x && typeof x === "object" && !Array.isArray(x)) || {};
-
-  return {
-    gbt: pick(
-      item?.citeGbt,
-      item?.citationGbt,
-      citationObj.gbt,
-      citationObj.gbt7714,
-      citationObj.gbt_7714,
-      citationObj.cn,
-    ),
-    bibtex: pick(
-      item?.citeBibtex,
-      item?.citationBibtex,
-      citationObj.bibtex,
-      citationObj.bibTeX,
-      citationObj.bib,
-    ),
-  };
 };
 
 const normalizePublicationAuthors = (item) => {
@@ -1513,20 +1506,6 @@ const getCaiyangAuthorFlags = (item) => {
   };
 };
 
-const formatPublicationAuthorsForCitation = (item) => {
-  const normalized = normalizePublicationAuthors(item);
-  if (!normalized.length) {
-    return {
-      inline: "Unknown Authors",
-      bibtex: "Unknown Authors",
-    };
-  }
-  return {
-    inline: normalized.map((entry) => entry.name).join(", "),
-    bibtex: normalized.map((entry) => entry.name).join(" and "),
-  };
-};
-
 const renderPublicationAuthors = (container, item) => {
   if (!container) {
     return;
@@ -1568,77 +1547,6 @@ const renderPublicationAuthors = (container, item) => {
 
     container.appendChild(name);
   });
-};
-
-const fallbackCitation = (item) => {
-  const title = getEnglishText(item?.title, "Untitled").trim();
-  const authorText = formatPublicationAuthorsForCitation(item);
-  const venue = getEnglishText(item?.venue, "Unknown Venue").trim();
-  const key = slugify(title).replace(/-/g, "").slice(0, 30) || "paper";
-
-  return {
-    gbt: `${authorText.inline}. ${title}[J]. ${venue}.`,
-    bibtex: `@article{${key},\n  title={${title}},\n  author={${authorText.bibtex}},\n  journal={${venue}}\n}`,
-  };
-};
-
-const createCitationAction = (citation) => {
-  const gbt = String(citation?.gbt || "").trim();
-  const bibtex = String(citation?.bibtex || "").trim();
-  if (!gbt && !bibtex) {
-    return null;
-  }
-
-  const wrapper = document.createElement("div");
-  wrapper.className = "pub-cite";
-
-  const trigger = document.createElement("button");
-  trigger.type = "button";
-  trigger.className = "pub-action pub-action--cite pub-cite-trigger";
-  trigger.setAttribute("aria-haspopup", "menu");
-  trigger.setAttribute("aria-expanded", "false");
-  appendPublicationActionContent(trigger, "cite");
-
-  const menu = document.createElement("div");
-  menu.className = "pub-cite-menu";
-  menu.setAttribute("role", "menu");
-
-  const addOption = (label, payload) => {
-    const text = String(payload || "").trim();
-    if (!text) {
-      return;
-    }
-    const option = document.createElement("button");
-    option.type = "button";
-    option.className = "pub-cite-option";
-    option.setAttribute("role", "menuitem");
-    option.textContent = label;
-    option.addEventListener("click", async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      try {
-        await copyText(text);
-        showTransientToast("已复制", "success", 2000);
-      } catch (err) {
-        console.error("Failed to copy citation.", err);
-        showTransientToast("Copy failed", "info", 2200);
-      }
-    });
-    menu.appendChild(option);
-  };
-
-  addOption("GB/T 7714", gbt);
-  addOption("BibTeX", bibtex);
-  if (!menu.childElementCount) {
-    return null;
-  }
-
-  wrapper.addEventListener("mouseenter", () => trigger.setAttribute("aria-expanded", "true"));
-  wrapper.addEventListener("mouseleave", () => trigger.setAttribute("aria-expanded", "false"));
-
-  wrapper.appendChild(trigger);
-  wrapper.appendChild(menu);
-  return wrapper;
 };
 
 const renderProfile = (data) => {
@@ -1699,12 +1607,12 @@ const renderProfile = (data) => {
 
       if (item.url) {
         const a = document.createElement("a");
-        const email = extractEmail(item);
+        const emails = extractEmails(item);
         const localizedMetaText = getEnglishText(item.text).trim();
         const isEmailPopup =
           item.popup === "email" ||
           /^email$/i.test(localizedMetaText) ||
-          Boolean(email);
+          emails.length > 0;
 
         a.href = isEmailPopup ? "#" : item.url;
         a.className = "meta-link";
@@ -1714,7 +1622,7 @@ const renderProfile = (data) => {
           a.setAttribute("aria-haspopup", "dialog");
           a.addEventListener("click", (event) => {
             event.preventDefault();
-            openEmailModal(email || String(item.url || "").replace(/^mailto:/, "").trim());
+            openEmailModal(emails);
           });
         } else if (/^https?:\/\//.test(a.href)) {
           a.target = "_blank";
@@ -1774,7 +1682,12 @@ const buildOverviewStats = (data, context = {}) => {
 const renderOverview = (data, context = {}) => {
   if (summaryText) {
     const summary = getLocalizedText(data.summary || context.aboutIntro || "").trim();
-    summaryText.textContent = summary;
+    if (/<a\s/i.test(summary)) {
+      summaryText.innerHTML = summary;
+    } else {
+      summaryText.textContent = summary;
+    }
+    decorateSummaryText();
   }
 };
 
@@ -1805,22 +1718,155 @@ const renderAbout = (data) => {
   }
 };
 
+const NEWS_TYPE = {
+  PUBLICATION: "publication",
+  SERVICE: "service",
+  AWARD: "award",
+  TALK: "talk",
+  TEACHING: "teaching",
+  PROJECT: "project",
+  UPDATE: "update",
+  OTHER: "other",
+};
+
+const normalizeNewsType = (item) => {
+  const rawType = getEnglishText(item?.type || item?.category || item?.kind || "")
+    .trim()
+    .toLowerCase();
+
+  if (["publication", "paper", "pub", "research"].includes(rawType)) {
+    return NEWS_TYPE.PUBLICATION;
+  }
+  if (["service", "review", "reviewer", "editorial", "committee"].includes(rawType)) {
+    return NEWS_TYPE.SERVICE;
+  }
+  if (["award", "honor", "prize"].includes(rawType)) {
+    return NEWS_TYPE.AWARD;
+  }
+  if (["talk", "seminar", "presentation", "keynote"].includes(rawType)) {
+    return NEWS_TYPE.TALK;
+  }
+  if (["teaching", "course", "lecture"].includes(rawType)) {
+    return NEWS_TYPE.TEACHING;
+  }
+  if (["project", "release", "software", "dataset"].includes(rawType)) {
+    return NEWS_TYPE.PROJECT;
+  }
+  if (["other", "misc"].includes(rawType)) {
+    return NEWS_TYPE.OTHER;
+  }
+
+  const text = getEnglishText(item?.text || "").toLowerCase();
+  if (
+    /\b(accepted|paper|publication|journal|conference|cvpr|iclr|neurips|icml|aaai|acl|emnlp|arxiv)\b/.test(
+      text,
+    )
+  ) {
+    return NEWS_TYPE.PUBLICATION;
+  }
+  if (
+    /\b(reviewer|review|program committee|pc member|tpc|editor|guest editor|associate editor|chair|served as|serve as)\b/.test(
+      text,
+    )
+  ) {
+    return NEWS_TYPE.SERVICE;
+  }
+  return NEWS_TYPE.UPDATE;
+};
+
+const getNewsTypeLabel = (type) => {
+  const labels = {
+    [NEWS_TYPE.PUBLICATION]: "Publication",
+    [NEWS_TYPE.SERVICE]: "Service",
+    [NEWS_TYPE.AWARD]: "Award",
+    [NEWS_TYPE.TALK]: "Talk",
+    [NEWS_TYPE.TEACHING]: "Teaching",
+    [NEWS_TYPE.PROJECT]: "Project",
+    [NEWS_TYPE.UPDATE]: "Update",
+    [NEWS_TYPE.OTHER]: "Other",
+  };
+  return labels[type] || labels[NEWS_TYPE.UPDATE];
+};
+
 const renderNews = (items) => {
   if (!newsList) {
     return;
   }
+  const newsItems = Array.isArray(items) ? items : [];
+  const displayItems = [...newsItems].reverse();
   newsList.innerHTML = "";
-  items.forEach((item, index) => {
+  newsList.classList.remove("timeline--scroll");
+  displayItems.forEach((item, index) => {
+    const newsType = normalizeNewsType(item);
     const li = document.createElement("li");
+    li.classList.add("news-item", "reveal", `news-type-${newsType}`);
     if (index === 0) {
       li.classList.add("news-latest");
       li.setAttribute("aria-label", "Latest update");
     }
-    const strong = document.createElement("strong");
-    strong.textContent = getEnglishText(item.date);
-    li.appendChild(strong);
-    li.append(`: ${getEnglishText(item.text)}`);
+
+    const line = document.createElement("div");
+    line.className = "news-line";
+
+    const marker = document.createElement("span");
+    marker.className = "news-marker";
+    marker.setAttribute("aria-hidden", "true");
+
+    const date = document.createElement("span");
+    date.className = "news-date";
+    date.textContent = getEnglishText(item.date);
+
+    const tag = document.createElement("span");
+    tag.className = `news-pill news-pill-${newsType}`;
+    tag.textContent = getNewsTypeLabel(newsType);
+
+    const main = document.createElement("span");
+    main.className = "news-main";
+    main.textContent = getEnglishText(item.text);
+
+    line.appendChild(marker);
+    line.appendChild(date);
+    line.appendChild(main);
+    line.appendChild(tag);
+    li.appendChild(line);
     newsList.appendChild(li);
+  });
+};
+
+const renderAcademicService = (service) => {
+  if (!serviceList) {
+    return;
+  }
+  serviceList.innerHTML = "";
+  const role = document.createElement("h3");
+  role.className = "academic-service-role";
+  role.textContent = getLocalizedText(service?.role || "Program Committee Member and Reviewer");
+
+  const services = Array.isArray(service?.services) ? [...service.services] : [];
+  services.sort((a, b) => {
+    const yearA = Number(a?.year || String(a?.name || "").match(/\b(19|20)\d{2}\b/)?.[0] || 0);
+    const yearB = Number(b?.year || String(b?.name || "").match(/\b(19|20)\d{2}\b/)?.[0] || 0);
+    return yearB - yearA;
+  });
+
+  const detail = document.createElement("p");
+  detail.className = "academic-service-summary";
+  detail.textContent = services.map((item) => getLocalizedText(item?.name || item)).filter(Boolean).join("、");
+  serviceList.append(role, detail);
+};
+
+const renderLongterm = (items) => {
+  if (!longtermList) {
+    return;
+  }
+  longtermList.innerHTML = "";
+  (items || []).forEach((item) => {
+    const li = document.createElement("li");
+    const strong = document.createElement("strong");
+    strong.textContent = getEnglishText(item.title || item.label || "Long-term Task");
+    li.appendChild(strong);
+    li.append(`: ${getEnglishText(item.detail || item.text || "")}`);
+    longtermList.appendChild(li);
   });
 };
 
@@ -1829,7 +1875,7 @@ const renderJourney = (items) => {
     return;
   }
   journeyList.innerHTML = "";
-  items.forEach((item) => {
+  items.forEach((item, index) => {
     const row = document.createElement("article");
     row.className = "journey-item reveal";
 
@@ -1852,19 +1898,19 @@ const renderJourney = (items) => {
   });
 };
 
-const renderPublications = (items) => {
+const renderPublications = (items, options = {}) => {
   if (!pubList) {
     return [];
   }
   pubList.innerHTML = "";
+  const textOnly = options.textOnly ?? isPublicationsPage;
+  const showMedia = options.showMedia ?? !textOnly;
 
-  items.forEach((item) => {
+  items.forEach((item, index) => {
     const card = document.createElement("article");
-    card.className = isPublicationsPage ? "pub-card pub-card--text-only reveal" : "pub-card reveal";
-    card.dataset.tags = (item.tags || []).map((tag) => slugify(getEnglishText(tag))).join(" ");
+    card.className = textOnly ? "pub-card pub-card--text-only" : "pub-card";
     const taxonomy = normalizePublicationTaxonomy(item);
     const caiyangFlags = getCaiyangAuthorFlags(item);
-    card.dataset.filterType = (taxonomy.types || []).map((label) => slugify(label)).join(" ");
     card.dataset.filterYear = slugify(taxonomy.year || "");
     card.dataset.filterLevel = (taxonomy.levels || []).map((label) => slugify(label)).filter(Boolean).join(" ");
     const roleKeys = [];
@@ -1879,11 +1925,12 @@ const renderPublications = (items) => {
     card.dataset.sortAuthorPosition = Number.isFinite(caiyangFlags.position)
       ? String(caiyangFlags.position)
       : String(Number.MAX_SAFE_INTEGER);
+    card.dataset.sortIndex = String(index);
     const titleText = getEnglishText(item.title);
     const mediaLabel = getEnglishText(item.imageLabel || item.mediaLabel || item.coverLabel || "").trim();
 
     let thumb = null;
-    if (!isPublicationsPage) {
+    if (showMedia) {
       const mediaSrc = String(item.imageSrc || item.mediaSrc || item.figureSrc || "").trim();
       if (mediaSrc) {
         const resolvedMediaSrc = resolveAssetUrl(mediaSrc);
@@ -1923,6 +1970,7 @@ const renderPublications = (items) => {
           thumbButton.appendChild(label);
         }
         thumbButton.addEventListener("click", () => {
+          thumbButton.blur();
           openPublicationImageModal(resolvedMediaSrc, `${titleText} media`);
         });
         thumb = thumbButton;
@@ -1971,33 +2019,15 @@ const renderPublications = (items) => {
       levels.appendChild(year);
     }
 
-    const tags = document.createElement("div");
-    tags.className = "tags";
-    const typeKeys = new Set((taxonomy.types || []).map((label) => slugify(label)).filter(Boolean));
-    (item.tags || []).forEach((tag) => {
-      const tagEl = createTag(tag);
-      if (typeKeys.has(slugify(getEnglishText(tag)))) {
-        tagEl.classList.add("tag-type-match");
-      }
-      tags.appendChild(tagEl);
-    });
-
     const actions = document.createElement("div");
     actions.className = "pub-actions";
     const resources = normalizePublicationResources(item);
-    const hasPaperLink = isAvailableLink(resources.paper);
     const paperAction = createPaperAction(resources.paper);
     const codeAction = createPublicationLinkAction("code", resources.code);
-
-    const citation = normalizePublicationCitation(item);
-    const citeAction = hasPaperLink ? createCitationAction({ ...fallbackCitation(item), ...citation }) : null;
 
     actions.appendChild(paperAction);
     if (codeAction) {
       actions.appendChild(codeAction);
-    }
-    if (citeAction) {
-      actions.appendChild(citeAction);
     }
 
     body.appendChild(title);
@@ -2006,7 +2036,6 @@ const renderPublications = (items) => {
     if (levels.childElementCount > 0) {
       body.appendChild(levels);
     }
-    body.appendChild(tags);
     body.appendChild(actions);
 
     if (thumb) {
@@ -2034,55 +2063,36 @@ const sortPublicationCards = (cards) => {
 
   const sorted = [...cards];
   sorted.sort((a, b) => {
-    const yearA = getPublicationSortValue(a, "sortYear", 0);
-    const yearB = getPublicationSortValue(b, "sortYear", 0);
-    const posA = getPublicationSortValue(a, "sortAuthorPosition", Number.MAX_SAFE_INTEGER);
-    const posB = getPublicationSortValue(b, "sortAuthorPosition", Number.MAX_SAFE_INTEGER);
-    const titleA = (a.querySelector("h3")?.textContent || "").toLowerCase();
-    const titleB = (b.querySelector("h3")?.textContent || "").toLowerCase();
-
-    if (currentPublicationSortMode === PUBLICATION_SORT_MODE.AUTHOR) {
-      if (posA !== posB) {
-        return posA - posB;
-      }
-      if (yearA !== yearB) {
-        return yearB - yearA;
-      }
-      return titleA.localeCompare(titleB);
-    }
-
-    if (yearA !== yearB) {
-      return yearB - yearA;
-    }
-    if (posA !== posB) {
-      return posA - posB;
-    }
-    return titleA.localeCompare(titleB);
+    const indexA = getPublicationSortValue(a, "sortIndex", Number.MAX_SAFE_INTEGER);
+    const indexB = getPublicationSortValue(b, "sortIndex", Number.MAX_SAFE_INTEGER);
+    return indexB - indexA;
   });
 
   sorted.forEach((card) => pubList.appendChild(card));
 };
 
-const updatePublicationSortSwitchUI = () => {
-  if (!pubFilterHint) {
+const updatePublicationVisibleCount = (cards) => {
+  if (!isPublicationsPage) {
     return;
   }
-  const sortButtons = Array.from(pubFilterHint.querySelectorAll(".pub-sort-btn"));
-  sortButtons.forEach((btn) => {
-    const mode = btn.dataset.sortMode || "";
-    const active = mode === currentPublicationSortMode;
-    btn.classList.toggle("active", active);
-    btn.setAttribute("aria-pressed", active ? "true" : "false");
-  });
-};
+  const countEl = document.getElementById(PUBLICATION_COUNT_ELEMENT_ID);
+  if (!countEl) {
+    return;
+  }
+  const list = Array.isArray(cards) ? cards : [];
+  const visibleCount = list.filter((card) => !card.classList.contains("hidden")).length;
+  const numberEl = countEl.querySelector(".pub-selected-count-number");
+  const labelEl = countEl.querySelector(".pub-selected-count-label");
 
-const setPublicationSortMode = (mode) => {
-  if (![PUBLICATION_SORT_MODE.YEAR, PUBLICATION_SORT_MODE.AUTHOR].includes(mode)) {
-    return;
+  if (numberEl) {
+    numberEl.textContent = String(visibleCount);
+  } else {
+    countEl.textContent = String(visibleCount);
   }
-  currentPublicationSortMode = mode;
-  updatePublicationSortSwitchUI();
-  sortPublicationCards(currentPublicationCards);
+
+  if (!labelEl) {
+    countEl.append(" Publications");
+  }
 };
 
 const renderProjects = (items) => {
@@ -2351,42 +2361,27 @@ const enrichOverviewWithScholar = async (profile, overview, context) => {
   }
 };
 
-const initVisitorGlobe = (meta) => {
-  if (!profileGlobeSection || !clustrGlobeScript) {
-    return;
-  }
-
-  const cfg = meta?.clustrmaps || {};
-  if (cfg.enabled === false) {
-    profileGlobeSection.style.display = "none";
-    return;
-  }
-
-  const title = cfg.title || "Visitor Globe";
-  const token = cfg.globeToken || "Vr-eYn9fNnJRWR6kcXJa5akQlOll4HKWjM--Xfn5inY";
-
-  if (profileGlobeTitle) {
-    profileGlobeTitle.textContent = title;
-  }
-
-  if (!token) {
-    profileGlobeSection.style.display = "none";
-    return;
-  }
-
-  clustrGlobeScript.setAttribute(
-    "src",
-    `//clustrmaps.com/globe.js?d=${encodeURIComponent(token)}`,
-  );
-};
-
-const createFilterChipButton = (label, group, value, active = false) => {
+const createFilterChipButton = (label, group, value, active = false, withCount = false) => {
   const chip = document.createElement("button");
   chip.type = "button";
   chip.className = active ? "chip active" : "chip";
   chip.dataset.group = group;
   chip.dataset.filter = value;
-  chip.textContent = label;
+  chip.dataset.label = label;
+  if (withCount) {
+    const text = document.createElement("span");
+    text.className = "chip-label";
+    text.textContent = label;
+
+    const count = document.createElement("span");
+    count.className = "chip-count-badge";
+    count.textContent = "0";
+
+    chip.appendChild(text);
+    chip.appendChild(count);
+  } else {
+    chip.textContent = label;
+  }
   return chip;
 };
 
@@ -2405,11 +2400,6 @@ const renderPublicationFilterChips = (container, items) => {
       title: "",
       chips: [{ label: UI_TEXT.en.allChip, value: "all" }],
       defaultActive: true,
-    },
-    {
-      key: "type",
-      title: "Type",
-      chips: options.type.map((label) => ({ label, value: slugify(label) })),
     },
     {
       key: "year",
@@ -2438,6 +2428,9 @@ const renderPublicationFilterChips = (container, items) => {
 
     const row = document.createElement("div");
     row.className = "pub-filter-row";
+    if (isPublicationsPage && group.key === "all") {
+      row.classList.add("pub-filter-row--all");
+    }
 
     if (group.title) {
       const label = document.createElement("span");
@@ -2453,9 +2446,28 @@ const renderPublicationFilterChips = (container, items) => {
           group.key,
           chipInfo.value,
           Boolean(group.defaultActive),
+          isPublicationsPage && group.key === "level",
         ),
       );
     });
+
+    if (isPublicationsPage && group.key === "all") {
+      const selectedCount = document.createElement("span");
+      selectedCount.id = PUBLICATION_COUNT_ELEMENT_ID;
+      selectedCount.className = "pub-selected-count";
+
+      const selectedCountNumber = document.createElement("span");
+      selectedCountNumber.className = "pub-selected-count-number";
+      selectedCountNumber.textContent = "0";
+
+      const selectedCountLabel = document.createElement("span");
+      selectedCountLabel.className = "pub-selected-count-label";
+      selectedCountLabel.textContent = "Publications";
+
+      selectedCount.appendChild(selectedCountNumber);
+      selectedCount.appendChild(selectedCountLabel);
+      row.appendChild(selectedCount);
+    }
 
     wrapper.appendChild(row);
     container.appendChild(wrapper);
@@ -2468,37 +2480,65 @@ const setupPublicationTierFilter = (chipContainer, cards) => {
   }
 
   const selected = {
-    type: new Set(),
     year: new Set(),
     level: new Set(),
     authorRole: new Set(),
   };
-  const groups = ["type", "year", "level", "authorRole"];
+  const groups = ["year", "level", "authorRole"];
   const allChip = chipContainer.querySelector('.chip[data-group="all"]');
   const groupChips = groups.reduce((acc, group) => {
     acc[group] = Array.from(chipContainer.querySelectorAll(`.chip[data-group="${group}"]`));
     return acc;
   }, {});
 
+  const cardMatchesSelection = (card, selectionState) => {
+    const cardYear = card.dataset.filterYear || "";
+    const cardLevels = (card.dataset.filterLevel || "").split(" ").filter(Boolean);
+    const cardAuthorRoles = (card.dataset.filterAuthorRole || "").split(" ").filter(Boolean);
+
+    const hitYear = selectionState.year.size === 0 || selectionState.year.has(cardYear);
+    const hitLevel =
+      selectionState.level.size === 0 ||
+      Array.from(selectionState.level).every((levelKey) => cardLevels.includes(levelKey));
+    const hitAuthorRole =
+      selectionState.authorRole.size === 0 ||
+      Array.from(selectionState.authorRole).every((roleKey) => cardAuthorRoles.includes(roleKey));
+
+    return hitYear && hitLevel && hitAuthorRole;
+  };
+
+  const updateLevelChipCounts = () => {
+    if (!isPublicationsPage || !Array.isArray(groupChips.level) || groupChips.level.length === 0) {
+      return;
+    }
+
+    groupChips.level.forEach((chip) => {
+      const levelKey = chip.dataset.filter || "";
+      const badge = chip.querySelector(".chip-count-badge");
+      if (!badge || !levelKey) {
+        return;
+      }
+
+      const count = cards.reduce((total, card) => {
+        const testSelection = {
+          year: selected.year,
+          level: new Set([levelKey]),
+          authorRole: selected.authorRole,
+        };
+        return total + (cardMatchesSelection(card, testSelection) ? 1 : 0);
+      }, 0);
+
+      badge.textContent = String(count);
+    });
+  };
+
   const applyFilter = () => {
     cards.forEach((card) => {
-      const cardTypes = (card.dataset.filterType || "").split(" ").filter(Boolean);
-      const cardYear = card.dataset.filterYear || "";
-      const cardLevels = (card.dataset.filterLevel || "").split(" ").filter(Boolean);
-      const cardAuthorRoles = (card.dataset.filterAuthorRole || "").split(" ").filter(Boolean);
-
-      const hitType =
-        selected.type.size === 0 || Array.from(selected.type).every((typeKey) => cardTypes.includes(typeKey));
-      const hitYear = selected.year.size === 0 || selected.year.has(cardYear);
-      const hitLevel =
-        selected.level.size === 0 || cardLevels.some((levelKey) => selected.level.has(levelKey));
-      const hitAuthorRole =
-        selected.authorRole.size === 0 ||
-        Array.from(selected.authorRole).every((roleKey) => cardAuthorRoles.includes(roleKey));
-
-      card.classList.toggle("hidden", !(hitType && hitYear && hitLevel && hitAuthorRole));
+      card.classList.toggle("hidden", !cardMatchesSelection(card, selected));
     });
+    updateLevelChipCounts();
     sortPublicationCards(cards);
+    updatePublicationVisibleCount(cards);
   };
 
   const syncGroupChipState = () => {
@@ -2534,7 +2574,7 @@ const setupPublicationTierFilter = (chipContainer, cards) => {
     (groupChips[group] || []).forEach((chip) => {
       chip.addEventListener("click", () => {
         const value = chip.dataset.filter || "";
-        const singleSelectGroup = group === "year" || group === "level" || group === "authorRole";
+        const singleSelectGroup = group === "year" || group === "authorRole";
 
         if (singleSelectGroup) {
           if (selected[group].has(value)) {
@@ -2659,22 +2699,12 @@ const animateCounter = (el) => {
     return;
   }
 
-  const start = performance.now();
-  const duration = 1000;
-  const tick = (now) => {
-    const progress = Math.min((now - start) / duration, 1);
-    const value = Math.round(progress * target);
-    el.textContent = `${value}${suffix}`;
-    if (progress < 1) {
-      requestAnimationFrame(tick);
-    }
-  };
-  requestAnimationFrame(tick);
+  el.textContent = `${target}${suffix}`;
 };
 
 const watchCounters = () => {
   document.querySelectorAll(".stat-number[data-target]").forEach((counter) => {
-    counterObserver.observe(counter);
+    animateCounter(counter);
   });
 };
 
@@ -2705,13 +2735,20 @@ const setActiveNavByScroll = () => {
 
   const headerHeight = masthead ? masthead.offsetHeight : 0;
   const marker = window.scrollY + headerHeight + 24;
+  const scrollBottom = window.scrollY + window.innerHeight;
+  const pageBottom = document.documentElement.scrollHeight;
+  const nearPageBottom = pageBottom - scrollBottom <= 8;
 
   let current = sections[0];
-  for (const section of sections) {
-    if (section.offsetTop <= marker) {
-      current = section;
-    } else {
-      break;
+  if (nearPageBottom) {
+    current = sections[sections.length - 1];
+  } else {
+    for (const section of sections) {
+      if (section.offsetTop <= marker) {
+        current = section;
+      } else {
+        break;
+      }
     }
   }
 
@@ -2780,38 +2817,56 @@ const renderAllFromCache = () => {
     return;
   }
 
-  const { profile, overview, news, journey, publications, projects, awards, contact, meta } =
+  const { profile, overview, longterm, news, service, journey, publications, projects, awards, contact, meta } =
     contentCache;
 
   const allPubItems = publications.items || [];
-  const pubItems = filterPublicationsByPage(allPubItems, isPublicationsPage);
+  const filteredPubItems = filterPublicationsByPage(allPubItems, isPublicationsPage);
+  const pubItems = isPublicationsPage
+    ? filteredPubItems
+    : getHomePagePublicationItems(filteredPubItems);
   const projectItems = projects.items || [];
 
   renderProfile(profile);
   renderOverview(overview);
+  renderLongterm(longterm.items || []);
   renderNews(news.items || []);
+  renderAcademicService(service);
   renderJourney(journey.items || []);
 
-  renderPublicationFilterChips(pubFilterChips, pubItems);
+  if (isPublicationsPage) {
+    renderPublicationFilterChips(pubFilterChips, pubItems);
+    if (pubFilterChips) {
+      pubFilterChips.style.removeProperty("display");
+    }
+  } else if (pubFilterChips) {
+    pubFilterChips.innerHTML = "";
+    pubFilterChips.style.display = "none";
+  }
   renderFilterChips(projectFilterChips, getUniqueTags(projectItems));
 
-  const pubCards = renderPublications(pubItems);
+  const pubCards = renderPublications(pubItems, {
+    textOnly: true,
+    showMedia: false,
+  });
   currentPublicationCards = pubCards;
+  sortPublicationCards(currentPublicationCards);
   const projectCards = renderProjects(projectItems);
 
-  setupPublicationTierFilter(pubFilterChips, pubCards);
+  if (isPublicationsPage) {
+    setupPublicationTierFilter(pubFilterChips, pubCards);
+  }
   setupMultiFilter(projectFilterChips, projectCards);
 
   renderAwards(awards.items || []);
   renderContact(contact);
-  initVisitorGlobe(meta);
-
   if (updatedAt) {
     updatedAt.textContent = meta.updatedAt || new Date().toISOString().slice(0, 10);
   }
 
   observeRevealElements(document);
   setActiveNavByScroll();
+  window.dispatchEvent(new Event("resize"));
 };
 
 const setLanguage = (lang) => {
@@ -2832,11 +2887,37 @@ const initLanguageSwitch = () => {
 };
 
 const loadAllContent = async () => {
-  const [profile, overview, news, journey, publications, projects, awards, contact, meta] =
+  if (isPublicationsPage) {
+    const [profile, publications, meta] = await Promise.all([
+      loadJson("profile.json", FALLBACK.profile),
+      loadJson(PUBLICATIONS_LEGACY_FILE, FALLBACK.publications),
+      loadJson("meta.json", FALLBACK.meta),
+    ]);
+
+    contentCache = {
+      profile,
+      overview: FALLBACK.overview,
+      longterm: FALLBACK.longterm,
+      news: FALLBACK.news,
+      service: FALLBACK.service,
+      journey: FALLBACK.journey,
+      publications,
+      projects: FALLBACK.projects,
+      awards: FALLBACK.awards,
+      contact: FALLBACK.contact,
+      meta,
+    };
+    renderAllFromCache();
+    return;
+  }
+
+  const [profile, overview, longterm, news, service, journey, publications, projects, awards, contact, meta] =
     await Promise.all([
     loadJson("profile.json", FALLBACK.profile),
     loadJson("overview.json", FALLBACK.overview),
+    loadJson("longterm.json", FALLBACK.longterm),
     loadJson("news.json", FALLBACK.news),
+    loadJson("service.json", FALLBACK.service),
     loadJson("journey.json", FALLBACK.journey),
     loadJson(PUBLICATIONS_LEGACY_FILE, FALLBACK.publications),
     loadJson("projects.json", FALLBACK.projects),
@@ -2848,7 +2929,9 @@ const loadAllContent = async () => {
   contentCache = {
     profile,
     overview,
+    longterm,
     news,
+    service,
     journey,
     publications,
     projects,
@@ -2859,8 +2942,286 @@ const loadAllContent = async () => {
   renderAllFromCache();
 };
 
+const initScrollProgress = () => {
+  const update = () => {
+    const doc = document.documentElement;
+    const total = Math.max(doc.scrollHeight - window.innerHeight, 0);
+    const progress = total > 0 ? (window.scrollY / total) * 100 : 0;
+    doc.style.setProperty("--scroll-progress", progress.toFixed(3));
+  };
+
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+};
+
+const initProfileCardMotion = () => {
+  if (!profileCard) {
+    return;
+  }
+
+  const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  const coarsePointer = window.matchMedia?.("(pointer: coarse)").matches;
+  if (prefersReducedMotion || coarsePointer) {
+    return;
+  }
+
+  const reset = () => {
+    profileCard.style.setProperty("--card-tilt-x", "0deg");
+    profileCard.style.setProperty("--card-tilt-y", "0deg");
+    profileCard.style.setProperty("--card-lift", "0px");
+    profileCard.style.setProperty("--card-glow-x", "50%");
+    profileCard.style.setProperty("--card-glow-y", "22%");
+  };
+
+  profileCard.addEventListener("pointermove", (event) => {
+    const rect = profileCard.getBoundingClientRect();
+    const ratioX = (event.clientX - rect.left) / rect.width - 0.5;
+    const ratioY = (event.clientY - rect.top) / rect.height - 0.5;
+    profileCard.style.setProperty("--card-tilt-x", `${(-ratioY * 7).toFixed(2)}deg`);
+    profileCard.style.setProperty("--card-tilt-y", `${(ratioX * 9).toFixed(2)}deg`);
+    profileCard.style.setProperty("--card-lift", "-4px");
+    profileCard.style.setProperty("--card-glow-x", `${((ratioX + 0.5) * 100).toFixed(1)}%`);
+    profileCard.style.setProperty("--card-glow-y", `${((ratioY + 0.5) * 100).toFixed(1)}%`);
+  });
+
+  profileCard.addEventListener("pointerleave", reset);
+  reset();
+};
+
+const initAmbientNetwork = () => {
+  if (!document.body || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.className = "ambient-network";
+  document.body.appendChild(canvas);
+
+  const context = canvas.getContext("2d", { alpha: true });
+  if (!context) {
+    return;
+  }
+
+  const pointer = {
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+    active: false,
+  };
+
+  const state = {
+    width: 0,
+    height: 0,
+    ratio: 1,
+    points: [],
+  };
+
+  const randomInBand = (width, side) => {
+    const safeMargin = Math.min(96, width * 0.08);
+    const centerGap = Math.min(Math.max(width * 0.26, 220), width * 0.34);
+    const leftMax = width / 2 - centerGap;
+    const rightMin = width / 2 + centerGap;
+    if (side === "left") {
+      return safeMargin + Math.random() * Math.max(40, leftMax - safeMargin);
+    }
+    return rightMin + Math.random() * Math.max(40, width - rightMin - safeMargin);
+  };
+
+  const createPoint = (width, height, side) => ({
+    side,
+    x: randomInBand(width, side),
+    y: Math.random() * height,
+    baseX: 0,
+    baseY: 0,
+    driftX: (Math.random() - 0.5) * 0.28,
+    driftY: (Math.random() - 0.5) * 0.18,
+    radius: 1.2 + Math.random() * 1.8,
+    hue: side === "left" ? 198 + Math.random() * 14 : 350 + Math.random() * 10,
+    attraction: 0.015 + Math.random() * 0.012,
+  });
+
+  const rebuildPoints = () => {
+    const { width, height } = state;
+    const area = width * height;
+    const count = Math.max(22, Math.min(54, Math.round(area / 52000)));
+    state.points = Array.from({ length: count }, (_, index) =>
+      createPoint(width, height, index < count / 2 ? "left" : "right"),
+    );
+    state.points.forEach((point) => {
+      point.baseX = point.x;
+      point.baseY = point.y;
+    });
+  };
+
+  const resize = () => {
+    const ratio = Math.min(window.devicePixelRatio || 1, 1.8);
+    state.width = window.innerWidth;
+    state.height = window.innerHeight;
+    state.ratio = ratio;
+    canvas.width = Math.round(state.width * ratio);
+    canvas.height = Math.round(state.height * ratio);
+    canvas.style.width = `${state.width}px`;
+    canvas.style.height = `${state.height}px`;
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    rebuildPoints();
+  };
+
+  const updatePointer = (event) => {
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+    pointer.active = true;
+  };
+
+  const clearPointer = () => {
+    pointer.active = false;
+  };
+
+  const draw = () => {
+    context.clearRect(0, 0, state.width, state.height);
+
+    const centerX = state.width / 2;
+    const centerFadeStart = state.width * 0.19;
+    const centerFadeEnd = state.width * 0.33;
+    const centerFadeRange = Math.max(centerFadeEnd - centerFadeStart, 1);
+
+    state.points.forEach((point) => {
+      point.baseX += point.driftX;
+      point.baseY += point.driftY;
+
+      const minX = point.side === "left" ? 24 : centerX + centerFadeStart;
+      const maxX = point.side === "left" ? centerX - centerFadeStart : state.width - 24;
+      if (point.baseX < minX || point.baseX > maxX) {
+        point.driftX *= -1;
+        point.baseX = Math.min(maxX, Math.max(minX, point.baseX));
+      }
+      if (point.baseY < 24 || point.baseY > state.height - 24) {
+        point.driftY *= -1;
+        point.baseY = Math.min(state.height - 24, Math.max(24, point.baseY));
+      }
+
+      let targetX = point.baseX;
+      let targetY = point.baseY;
+
+      if (pointer.active) {
+        const dx = pointer.x - point.baseX;
+        const dy = pointer.y - point.baseY;
+        const distance = Math.hypot(dx, dy);
+        const radius = 160;
+        if (distance < radius) {
+          const pull = (1 - distance / radius) * 18;
+          targetX += dx * point.attraction + (dx / Math.max(distance, 1)) * pull * 0.08;
+          targetY += dy * point.attraction + (dy / Math.max(distance, 1)) * pull * 0.08;
+        }
+      }
+
+      point.x += (targetX - point.x) * 0.08;
+      point.y += (targetY - point.y) * 0.08;
+    });
+
+    for (let i = 0; i < state.points.length; i += 1) {
+      const a = state.points[i];
+      for (let j = i + 1; j < state.points.length; j += 1) {
+        const b = state.points[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const distance = Math.hypot(dx, dy);
+        const maxDistance = 124;
+        if (distance > maxDistance) {
+          continue;
+        }
+
+        const centerDistance = Math.min(Math.abs((a.x + b.x) * 0.5 - centerX), centerFadeEnd);
+        const sideFactor = Math.max(0, Math.min(1, (centerDistance - centerFadeStart) / centerFadeRange));
+        if (sideFactor <= 0.02) {
+          continue;
+        }
+
+        const alpha = (1 - distance / maxDistance) * 0.22 * sideFactor;
+        context.beginPath();
+        context.moveTo(a.x, a.y);
+        context.lineTo(b.x, b.y);
+        context.strokeStyle = a.side === "left"
+          ? `rgba(36, 109, 168, ${alpha.toFixed(4)})`
+          : `rgba(212, 97, 124, ${alpha.toFixed(4)})`;
+        context.lineWidth = 0.8;
+        context.stroke();
+      }
+    }
+
+    state.points.forEach((point) => {
+      const centerDistance = Math.abs(point.x - centerX);
+      const sideFactor = Math.max(0.15, Math.min(1, (centerDistance - centerFadeStart) / centerFadeRange));
+      const pulse = pointer.active ? 0.18 : 0;
+      context.beginPath();
+      context.arc(point.x, point.y, point.radius + pulse, 0, Math.PI * 2);
+      context.fillStyle = `hsla(${point.hue}, 68%, 58%, ${(0.22 + point.radius * 0.06) * sideFactor})`;
+      context.fill();
+    });
+
+    window.requestAnimationFrame(draw);
+  };
+
+  resize();
+  draw();
+
+  window.addEventListener("resize", resize);
+  window.addEventListener("mousemove", updatePointer, { passive: true });
+  window.addEventListener("mouseleave", clearPointer);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      clearPointer();
+    }
+  });
+};
+
+const initPageTransitions = () => {
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a[href]");
+    if (!link || event.defaultPrevented) {
+      return;
+    }
+
+    if (
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      link.target === "_blank" ||
+      link.hasAttribute("download")
+    ) {
+      return;
+    }
+
+    const href = link.getAttribute("href") || "";
+    if (!href || href.startsWith("#") || href.startsWith("mailto:")) {
+      return;
+    }
+
+    let targetUrl;
+    try {
+      targetUrl = new URL(link.href, window.location.href);
+    } catch (_err) {
+      return;
+    }
+
+    if (targetUrl.origin !== window.location.origin) {
+      return;
+    }
+    if (targetUrl.pathname === window.location.pathname && targetUrl.hash) {
+      return;
+    }
+
+    event.preventDefault();
+    document.body.classList.add("page-leaving");
+    window.setTimeout(() => {
+      window.location.href = targetUrl.href;
+    }, 180);
+  });
+};
+
 initMenu();
 initNavScrollSync();
+initScrollProgress();
 initEmailModal();
 initPublicationImageModal();
 initLanguageSwitch();
