@@ -2766,7 +2766,7 @@ const initNavScrollSync = () => {
 
 const loadJson = async (file, fallback) => {
   try {
-    const res = await fetch(`${CONTENT_BASE}/${file}`, { cache: "no-store" });
+    const res = await fetch(`${CONTENT_BASE}/${file}`, { cache: "no-cache" });
     if (!res.ok) {
       throw new Error(`load failed: ${res.status}`);
     }
@@ -2940,6 +2940,12 @@ const loadAllContent = async () => {
     meta,
   };
   renderAllFromCache();
+};
+
+const markContentReady = () => {
+  window.clearTimeout(window.contentReadyFallback);
+  document.body.classList.remove("content-loading");
+  document.body.removeAttribute("aria-busy");
 };
 
 const initScrollProgress = () => {
@@ -3225,6 +3231,10 @@ initScrollProgress();
 initEmailModal();
 initPublicationImageModal();
 initLanguageSwitch();
-loadAllContent();
+loadAllContent()
+  .catch((error) => {
+    console.error("Failed to initialize page content.", error);
+  })
+  .finally(markContentReady);
 
 

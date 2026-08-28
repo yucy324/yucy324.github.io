@@ -41,6 +41,18 @@ body {
   animation: none;
 }
 
+/* Keep raw HTML placeholders out of the first paint while JSON content loads. */
+.js body.content-loading .layout,
+.js body.content-loading .footer {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.js body:not(.content-loading) .layout,
+.js body:not(.content-loading) .footer {
+  transition: opacity 0.16s ease;
+}
+
 body.modal-open {
   overflow: hidden;
   filter: none !important;

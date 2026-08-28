@@ -9,21 +9,23 @@
     <title>Caiyang Yu - Homepage</title>
     <meta
       name="description"
-      content="Personal homepage template for profile, publications, projects, and contact."
+      content="Caiyang Yu's personal homepage, publications, academic service, and contact information."
     />
-    <link rel="stylesheet" href="./assets/css/style.css?v=20260824a12" />
+    <script>document.documentElement.classList.add("js");</script>
+    <link rel="stylesheet" href="./assets/css/style.css?v=20260828a13" />
   </head>
-  <body class="accent-border-top">
+  <body class="accent-border-top content-loading" aria-busy="true">
     <header class="masthead">
       <div class="masthead__inner">
         <a class="brand" href="#overview">Homepage</a>
         <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
-          �?        </button>
+          &#9776;
+        </button>
         <nav class="site-nav" id="siteNav">
           <a href="#overview" class="nav-link active" id="navOverview">Profile</a>
           <a href="#news" class="nav-link" id="navNews">News</a>
-          <a href="#service" class="nav-link" id="navService">Service</a>
           <a href="#publications" class="nav-link" id="navPublications">Publications</a>
+          <a href="#service" class="nav-link" id="navService">Service</a>
           <a href="#contact" class="nav-link" id="navContact">Contact</a>
         </nav>
       </div>
@@ -34,7 +36,7 @@
         <div class="profile-card reveal">
           <img
             src="./assets/img/caiyang-yu.jpg"
-            alt="个人头像"
+            alt="Caiyang Yu profile photo"
             class="avatar"
             width="150"
             height="225"
@@ -51,12 +53,11 @@
         <section id="overview" class="section reveal">
           <div class="overview-grid">
             <article class="summary-card">
-              <p class="summary-text" id="summaryText">
-                这里会展示你最核心的身份与方向，一屏让访问者知道你是谁、你做什么、为什么值得合作�?              </p>
+              <p class="summary-text" id="summaryText"></p>
               <div class="lang-switch lang-switch-inline" id="langSwitch" aria-label="Language switch">
                 <button type="button" class="lang-btn active" id="langBtnEn" data-lang="en">EN</button>
                 <span class="lang-divider" aria-hidden="true">/</span>
-                <button type="button" class="lang-btn" id="langBtnZh" data-lang="zh">����</button>
+                <button type="button" class="lang-btn" id="langBtnZh" data-lang="zh">中文</button>
               </div>
             </article>
           </div>
@@ -67,7 +68,7 @@
           <ul class="timeline" id="longtermList"></ul>
         </section>
         <section id="news" class="section reveal">
-          <h2 id="newsTitle">🔥 News</h2>
+          <h2 id="newsTitle">News</h2>
           <ul class="timeline" id="newsList"></ul>
         </section>
 
@@ -77,7 +78,7 @@
             <a id="publicationsFullListLink" class="section-title-link" href="./publications.html">(Full List)</a>
           </h2>
           <div class="chip-group" id="pubFilterChips"></div>
-          <p class="filter-hint filter-hint--authors" id="pubFilterHint">�� First Author        ? Corresponding Author</p>
+          <p class="filter-hint filter-hint--authors" id="pubFilterHint">★ First Author &nbsp;&nbsp; ✉ Corresponding Author</p>
           <div class="pub-list" id="pubList"></div>
         </section>
 
@@ -87,7 +88,7 @@
         </section>
 
         <section id="contact" class="section reveal">
-          <h2 id="contactTitle">📮 Contact</h2>
+          <h2 id="contactTitle">Contact</h2>
           <p id="contactText"></p>
         </section>
       </main>
@@ -99,8 +100,12 @@
 
     <script>
       window.CONTENT_BASE_PATH = "./content";
+      window.contentReadyFallback = window.setTimeout(function () {
+        document.body.classList.remove("content-loading");
+        document.body.removeAttribute("aria-busy");
+      }, 4000);
     </script>
-    <script src="./assets/js/main.js?v=20260824a12"></script>
+    <script src="./assets/js/main.js?v=20260828a13"></script>
   </body>
 </html>
 
