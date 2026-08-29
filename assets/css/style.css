@@ -495,6 +495,7 @@ body.publications-page .section {
 
 .section {
   position: relative;
+  scroll-margin-top: 5rem;
   background: var(--bg-white);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -1073,31 +1074,10 @@ body.publications-page .section {
   gap: 0.35rem;
 }
 
-.chip-count-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.15rem;
-  height: 1.15rem;
-  padding: 0 0.35rem;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  line-height: 1;
-  background: #e9f1fc;
-  color: #0b3a6f;
-}
-
 .chip.active,
 .chip:hover {
   border-color: transparent;
   background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-  color: #fff;
-}
-
-.chip.active .chip-count-badge,
-.chip:hover .chip-count-badge {
-  background: rgba(255, 255, 255, 0.24);
   color: #fff;
 }
 

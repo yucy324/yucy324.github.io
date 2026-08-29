@@ -2,7 +2,6 @@
 const siteNav = document.getElementById("siteNav");
 const navLinks = Array.from(document.querySelectorAll(".nav-link"));
 const masthead = document.querySelector(".masthead");
-const navOverview = document.getElementById("navOverview");
 const navNews = document.getElementById("navNews");
 const navService = document.getElementById("navService");
 const navJourney = document.getElementById("navJourney");
@@ -61,6 +60,7 @@ let pubImageModalPanel = null;
 let pubImageModalImg = null;
 let pubImageModalPdf = null;
 let contentCache = null;
+let anchoredNavTargetId = "";
 
 const LANGS = new Set(["en", "zh"]);
 let currentLang = "en";
@@ -420,7 +420,6 @@ const UI_TEXT = {
   en: {
     menuAria: "Toggle navigation menu",
     nav: {
-      overview: "Profile",
       news: "News",
       service: "Service",
       journey: "Journey",
@@ -455,7 +454,6 @@ const UI_TEXT = {
   zh: {
     menuAria: "Toggle navigation menu",
     nav: {
-      overview: "Profile",
       news: "News",
       service: "Service",
       journey: "Journey",
@@ -556,9 +554,6 @@ const applyStaticLanguage = () => {
 
   if (menuToggle) {
     menuToggle.setAttribute("aria-label", ui.menuAria);
-  }
-  if (navOverview) {
-    navOverview.textContent = ui.nav.overview;
   }
   if (navNews) {
     navNews.textContent = ui.nav.news;
@@ -2361,27 +2356,14 @@ const enrichOverviewWithScholar = async (profile, overview, context) => {
   }
 };
 
-const createFilterChipButton = (label, group, value, active = false, withCount = false) => {
+const createFilterChipButton = (label, group, value, active = false) => {
   const chip = document.createElement("button");
   chip.type = "button";
   chip.className = active ? "chip active" : "chip";
   chip.dataset.group = group;
   chip.dataset.filter = value;
   chip.dataset.label = label;
-  if (withCount) {
-    const text = document.createElement("span");
-    text.className = "chip-label";
-    text.textContent = label;
-
-    const count = document.createElement("span");
-    count.className = "chip-count-badge";
-    count.textContent = "0";
-
-    chip.appendChild(text);
-    chip.appendChild(count);
-  } else {
-    chip.textContent = label;
-  }
+  chip.textContent = label;
   return chip;
 };
 
@@ -2446,7 +2428,6 @@ const renderPublicationFilterChips = (container, items) => {
           group.key,
           chipInfo.value,
           Boolean(group.defaultActive),
-          isPublicationsPage && group.key === "level",
         ),
       );
     });
@@ -2507,36 +2488,10 @@ const setupPublicationTierFilter = (chipContainer, cards) => {
     return hitYear && hitLevel && hitAuthorRole;
   };
 
-  const updateLevelChipCounts = () => {
-    if (!isPublicationsPage || !Array.isArray(groupChips.level) || groupChips.level.length === 0) {
-      return;
-    }
-
-    groupChips.level.forEach((chip) => {
-      const levelKey = chip.dataset.filter || "";
-      const badge = chip.querySelector(".chip-count-badge");
-      if (!badge || !levelKey) {
-        return;
-      }
-
-      const count = cards.reduce((total, card) => {
-        const testSelection = {
-          year: selected.year,
-          level: new Set([levelKey]),
-          authorRole: selected.authorRole,
-        };
-        return total + (cardMatchesSelection(card, testSelection) ? 1 : 0);
-      }, 0);
-
-      badge.textContent = String(count);
-    });
-  };
-
   const applyFilter = () => {
     cards.forEach((card) => {
       card.classList.toggle("hidden", !cardMatchesSelection(card, selected));
     });
-    updateLevelChipCounts();
     sortPublicationCards(cards);
     updatePublicationVisibleCount(cards);
   };
@@ -2721,6 +2676,7 @@ const initMenu = () => {
       navLinks.forEach((x) => x.classList.toggle("active", x === link));
       const target = link.getAttribute("href");
       if (target && target.startsWith("#")) {
+        anchoredNavTargetId = getAnchorIdFromHref(target);
         history.replaceState(null, "", target);
       }
     });
@@ -2728,8 +2684,20 @@ const initMenu = () => {
 };
 
 const setActiveNavByScroll = () => {
+  if (document.body.classList.contains("content-loading")) {
+    return;
+  }
+
   const sections = Array.from(document.querySelectorAll("main .section"));
   if (!sections.length || !navLinks.length) {
+    return;
+  }
+
+  if (anchoredNavTargetId && document.getElementById(anchoredNavTargetId)) {
+    navLinks.forEach((link) => {
+      const target = getAnchorIdFromHref(link.getAttribute("href"));
+      link.classList.toggle("active", target === anchoredNavTargetId);
+    });
     return;
   }
 
@@ -2740,14 +2708,29 @@ const setActiveNavByScroll = () => {
   const nearPageBottom = pageBottom - scrollBottom <= 8;
 
   let current = sections[0];
+  let currentIndex = 0;
   if (nearPageBottom) {
     current = sections[sections.length - 1];
+    currentIndex = sections.length - 1;
   } else {
-    for (const section of sections) {
+    sections.forEach((section, index) => {
       if (section.offsetTop <= marker) {
         current = section;
-      } else {
-        break;
+        currentIndex = index;
+      }
+    });
+
+    const currentHasNav = navLinks.some(
+      (link) => getAnchorIdFromHref(link.getAttribute("href")) === current.id,
+    );
+    const currentRect = current.getBoundingClientRect();
+    if (currentHasNav && currentRect.top < headerHeight - 48) {
+      const nextNavigableSection = sections.slice(currentIndex + 1).find((section) =>
+        navLinks.some((link) => getAnchorIdFromHref(link.getAttribute("href")) === section.id),
+      );
+      const activationBottom = headerHeight + (window.innerHeight - headerHeight) * 0.75;
+      if (nextNavigableSection?.getBoundingClientRect().top <= activationBottom) {
+        current = nextNavigableSection;
       }
     }
   }
@@ -2759,6 +2742,17 @@ const setActiveNavByScroll = () => {
 };
 
 const initNavScrollSync = () => {
+  const releaseAnchoredNav = () => {
+    anchoredNavTargetId = "";
+  };
+
+  window.addEventListener("wheel", releaseAnchoredNav, { passive: true });
+  window.addEventListener("touchstart", releaseAnchoredNav, { passive: true });
+  window.addEventListener("keydown", (event) => {
+    if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) {
+      releaseAnchoredNav();
+    }
+  });
   window.addEventListener("scroll", setActiveNavByScroll, { passive: true });
   window.addEventListener("resize", setActiveNavByScroll);
   setActiveNavByScroll();
@@ -2946,6 +2940,40 @@ const markContentReady = () => {
   window.clearTimeout(window.contentReadyFallback);
   document.body.classList.remove("content-loading");
   document.body.removeAttribute("aria-busy");
+};
+
+const restoreRenderedHashPosition = () => {
+  const rawHash = window.location.hash.slice(1);
+  if (!rawHash) {
+    return false;
+  }
+
+  let targetId = rawHash;
+  try {
+    targetId = decodeURIComponent(rawHash);
+  } catch (_error) {
+    // Keep the raw hash when it is not URI encoded correctly.
+  }
+
+  const target = document.getElementById(targetId);
+  if (!target) {
+    return false;
+  }
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      const hasMatchingNav = navLinks.some(
+        (link) => getAnchorIdFromHref(link.getAttribute("href")) === targetId,
+      );
+      anchoredNavTargetId = hasMatchingNav ? targetId : "";
+      target.scrollIntoView({ block: "start" });
+      navLinks.forEach((link) => {
+        const linkTarget = getAnchorIdFromHref(link.getAttribute("href"));
+        link.classList.toggle("active", linkTarget === targetId);
+      });
+    });
+  });
+  return true;
 };
 
 const initScrollProgress = () => {
@@ -3235,6 +3263,11 @@ loadAllContent()
   .catch((error) => {
     console.error("Failed to initialize page content.", error);
   })
-  .finally(markContentReady);
+  .finally(() => {
+    markContentReady();
+    if (!restoreRenderedHashPosition()) {
+      setActiveNavByScroll();
+    }
+  });
 
 
