@@ -5,6 +5,10 @@
   },
   "services": [
     {
+      "name": "ICLR 2027",
+      "year": 2027
+    },
+    {
       "name": "AAAI 2027",
       "year": 2027
     },
