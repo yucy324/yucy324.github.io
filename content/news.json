@@ -100,7 +100,15 @@
                       "date":  "2026.08",
                       "type":  "publication",
                       "text":  {
-                                   "en":  "One paper has been accepted by EMNLP 2026 (Finding)",
+                                   "en":  "One paper has been accepted by EMNLP 2026 (Findings)",
+                                   "zh":  ""
+                               }
+                  },
+                  {
+                      "date":  "2026.08",
+                      "type":  "service",
+                      "text":  {
+                                   "en":  "Invited to serve as the reviewer for ICLR 2027",
                                    "zh":  ""
                                }
                   }
