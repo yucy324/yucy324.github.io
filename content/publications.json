@@ -446,7 +446,8 @@
           "name": "Chenwei Tang"
         },
         {
-          "name": "Wei Ju"
+          "name": "Wei Ju",
+          "corresponding": true
         },
         {
           "name": "Jiancheng Lv",
@@ -467,12 +468,12 @@
         "Autoregressive"
       ],
       "resources": {
-        "paper": "",
+        "paper": "https://openaccess.thecvf.com/content/CVPR2026/papers/Yu_Progressive_Neural_Architecture_Generation_CVPR_2026_paper.pdf",
         "cite": "#"
       },
       "citation": {
-        "gbt": "",
-        "bibtex": ""
+        "gbt": "Yu C, Huang C, Liu Y, et al. Progressive Neural Architecture Generation[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2026: 34524-34534.",
+        "bibtex": "@inproceedings{Yu_2026_CVPR,\n  title={Progressive Neural Architecture Generation},\n  author={Yu, Caiyang and Huang, Chen and Liu, Yun and Tang, Chenwei and Ju, Wei and Lv, Jiancheng},\n  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},\n  pages={34524--34534},\n  year={2026}\n}"
       }
     },
     {
@@ -488,7 +489,7 @@
           "corresponding": true
         },
         {
-          "name": "Haixin, Wang"
+          "name": "Haixin Wang"
         },
         {
           "name": "Yifan Wang"
@@ -616,7 +617,7 @@
       }
     },
     {
-      "title": "EquiCAD: A Geometric Equivariant Neural Network for 3D Shape Classiﬁcation",
+      "title": "EquiCAD: A Geometric Equivariant Neural Network for 3D Shape Classification",
       "authors": [
         {
           "name": "Yonghao Su",
@@ -727,6 +728,62 @@
       ],
       "resources": {
         "paper": "https://ieeexplore.ieee.org/abstract/document/11636210"
+      }
+    },
+    {
+      "badge": "Findings of the Association for Computational Linguistics: EMNLP 2026",
+      "title": "Reward-guided Meta-Prompt Evolving with Reflection for LLM Jailbreaking",
+      "authors": [
+        {
+          "name": "Caiyang Yu",
+          "first": true
+        },
+        {
+          "name": "Wei Ju",
+          "corresponding": true
+        },
+        {
+          "name": "Yun Liu"
+        },
+        {
+          "name": "Qingqing Long"
+        },
+        {
+          "name": "Siyu Yi"
+        },
+        {
+          "name": "Yifan Wang"
+        },
+        {
+          "name": "Junyu Luo"
+        },
+        {
+          "name": "Ziyue Qiao"
+        }
+      ],
+      "venue": "Findings of the Association for Computational Linguistics: EMNLP 2026",
+      "year": "2026",
+      "type": [
+        "Large Language Model"
+      ],
+      "showOnHome": true,
+      "level": {
+        "ccf": "CCF B"
+      },
+      "tags": [
+        "Large Language Model",
+        "LLM Safety",
+        "Jailbreak Attack",
+        "Meta-Prompt Optimization"
+      ],
+      "resources": {
+        "paper": "https://aclanthology.org/2026.findings-emnlp.75.pdf",
+        "code": "https://github.com/yucy324/ROOT",
+        "cite": "#"
+      },
+      "citation": {
+        "gbt": "Yu C, Ju W, Liu Y, et al. Reward-guided Meta-Prompt Evolving with Reflection for LLM Jailbreaking[C]//Findings of the Association for Computational Linguistics: EMNLP 2026. Association for Computational Linguistics, 2026: 1533-1551.",
+        "bibtex": "@inproceedings{yu-etal-2026-reward,\n  title={Reward-guided Meta-Prompt Evolving with Reflection for {LLM} Jailbreaking},\n  author={Yu, Caiyang and Ju, Wei and Liu, Yun and Long, Qingqing and Yi, Siyu and Wang, Yifan and Luo, Junyu and Qiao, Ziyue},\n  booktitle={Findings of the Association for Computational Linguistics: {EMNLP} 2026},\n  pages={1533--1551},\n  year={2026},\n  publisher={Association for Computational Linguistics},\n  doi={10.18653/2026.findings-emnlp.75}\n}"
       }
     }
   ]
