@@ -111,6 +111,14 @@
                                    "en":  "Invited to serve as the reviewer for ICLR 2027",
                                    "zh":  ""
                                }
+                  },
+                  {
+                      "date":  "2026.11",
+                      "type":  "service",
+                      "text":  {
+                                   "en":  "Invited to serve as a reviewer for ICML 2027",
+                                   "zh":  "受邀担任 ICML 2027 审稿人"
+                               }
                   }
               ]
 }
